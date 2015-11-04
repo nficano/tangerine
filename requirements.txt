@@ -1,0 +1,5 @@
+six==1.10.0
+slackclient==0.16
+websocket-client==0.34.0
+wheel==0.24.0
+PyYAML==3.11
