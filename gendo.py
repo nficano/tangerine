@@ -48,7 +48,6 @@ def image_me(message):
 
 
 @gendo.listen_for('sneaky fish count')
-@gendo.listen_for('sneaky fish counts')
 def sneaky_fish_counts(message):
     report = []
     if not get_total_sneaky_fishes():
