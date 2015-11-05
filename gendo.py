@@ -1,3 +1,4 @@
+import os
 import redis
 import yaml
 import random
@@ -6,7 +7,8 @@ import requests
 from collections import Counter
 from gendo import Gendo
 
-path_to_yaml = 'config.yaml'
+path = os.path.dirname(os.path.abspath(__file__))
+path_to_yaml = os.path.join(path, 'config.yaml')
 
 with open(path_to_yaml, 'r') as ymlfile:
     cfg = yaml.load(ymlfile)
