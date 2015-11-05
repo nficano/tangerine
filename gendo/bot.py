@@ -34,6 +34,8 @@ class Gendo(_PackageBoundObject):
                     break
 
     def respond(self, message):
+        if not message:
+            return
         for phrase, view_func, options in self.listeners:
             if phrase in message.lower():
                 response = view_func(message, **options)
