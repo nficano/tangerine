@@ -1,5 +1,5 @@
 [program:gendobot]
-command=/home/ubuntu/.virtualenvs/gendo/bin/python /home/ubuntu/gendo/gendobot.ini
+command=/home/ubuntu/.virtualenvs/gendo/bin/python /home/ubuntu/gendo/gendo.py
 autostart=true
 autorestart=true
 stopsignal=QUIT

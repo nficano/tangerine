@@ -48,4 +48,4 @@ htmlcov/
 .envs
 
 config.yaml
-gendobot.ini
+gendobot.conf
