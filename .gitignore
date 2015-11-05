@@ -46,3 +46,5 @@ htmlcov/
 
 # Local env
 .envs
+
+config.yaml
