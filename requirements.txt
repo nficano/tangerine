@@ -4,3 +4,4 @@ websocket-client==0.34.0
 wheel==0.24.0
 redis==2.10.5
 PyYAML==3.11
+supervisor==3.1.3
