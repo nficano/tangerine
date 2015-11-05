@@ -1,5 +1,6 @@
 import logging
 import json
+import time
 from slackclient import SlackClient
 
 from .helpers import _PackageBoundObject
@@ -24,6 +25,7 @@ class Gendo(_PackageBoundObject):
     def run(self):
         if self.client.rtm_connect():
             while True:
+                time.sleep(self.sleep)
                 try:
                     data = self.client.rtm_read()
                     if data and data[0].get('type') == 'message':
