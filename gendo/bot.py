@@ -27,7 +27,6 @@ class Gendo(_PackageBoundObject):
                 try:
                     data = self.client.rtm_read()
                     if data and data[0].get('type') == 'message':
-                        print data[0].get('text')
                         self.respond(data[0].get('text'))
                 except (KeyboardInterrupt, SystemExit):
                     print "Shutting down..."
