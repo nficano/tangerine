@@ -29,17 +29,19 @@ class Gendo(_PackageBoundObject):
                 try:
                     data = self.client.rtm_read()
                     if data and data[0].get('type') == 'message':
-                        self.respond(data[0].get('text'))
+                        user = data[0].get('user')
+                        message = data[0].get('text')
+                        self.respond(user, message)
                 except (KeyboardInterrupt, SystemExit):
                     print "Shutting down..."
                     break
 
-    def respond(self, message):
+    def respond(self, user, message):
         if not message:
             return
         for phrase, view_func, options in self.listeners:
             if phrase in message.lower():
-                response = view_func(message, **options)
+                response = view_func(user, message, **options)
                 if response:
                     self.speak(response)
 

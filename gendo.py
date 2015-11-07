@@ -25,12 +25,17 @@ def setup_redis():
 
 
 @gendo.listen_for('cookies')
-def cookies(message):
+def cookies(user, message):
     return "I *LOVE* COOOOOOOOKIES!!!!"
 
 
+@gendo.listen_for('morning')
+def morning(user, message):
+    return "mornin' @{0}".format(gendo.get_user_name(user))
+
+
 @gendo.listen_for('image me')
-def image_me(message):
+def image_me(user, message):
     matches = re.findall('image me(.*)', message)
     if not matches:
         return
@@ -46,7 +51,7 @@ def image_me(message):
 
 
 @gendo.listen_for('sneaky fish count')
-def sneaky_fish_counts(message):
+def sneaky_fish_counts(user, message):
     report = []
     if not get_total_sneaky_fishes():
         return "no sneaky fishes"
@@ -58,7 +63,7 @@ def sneaky_fish_counts(message):
 
 
 @gendo.listen_for('is a sneaky fish')
-def sneaky_fish(message):
+def sneaky_fish(user, message):
     fishes = re.findall('<\@([0-9A-Z]*)>', message)
     current_sneakiest_fish = get_sneakest_fish()
 
