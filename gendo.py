@@ -4,7 +4,6 @@ import yaml
 import random
 import re
 import requests
-from collections import Counter
 from gendo import Gendo
 
 path = os.path.dirname(os.path.abspath(__file__))
@@ -17,7 +16,6 @@ channel = cfg.get('gendo', {}).get('channel')
 token = cfg.get('gendo', {}).get('auth_token')
 gendo = Gendo(__name__, token, channel)
 
-sneaky_fish_count = Counter()
 db = None
 
 
@@ -48,7 +46,6 @@ def image_me(message):
 
 
 @gendo.listen_for('sneaky fish count')
-@gendo.listen_for('sneaky fish counts')
 def sneaky_fish_counts(message):
     report = []
     if not get_total_sneaky_fishes():
