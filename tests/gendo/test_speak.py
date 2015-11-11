@@ -1,4 +1,3 @@
-from nose.tools import *
 import mock
 
 from gendo import Gendo
@@ -6,6 +5,7 @@ from gendo import Gendo
 TEST_TEXT = ':muffpunch:'
 TEST_TOKEN = '111'
 TEST_CHANNEL = 'tests'
+
 
 class TestSpeak(object):
   @mock.patch('gendo.bot.Gendo.speak')
