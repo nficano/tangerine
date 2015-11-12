@@ -45,9 +45,18 @@ def image_me(user, message):
     if resp.ok:
         results = resp.json().get('responseData', {}).get('results', [])
         if results:
-            min_int, max_int = (0, len(results) - 1)
-            idx = random.randint(min_int, max_int)
-            return results[idx].get('url')
+            # make sure we get a working image
+            while True:
+                image_url = _get_random_image(results)
+                is_working = requests.get(image_url).ok
+                if is_working:
+                    return image_url
+
+
+def _get_random_image(results):
+    min_int, max_int = (0, len(results) - 1)
+    idx = random.randint(min_int, max_int)
+    return results[idx].get('url')
 
 
 @gendo.listen_for('sneaky fish count')
