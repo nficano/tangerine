@@ -24,14 +24,6 @@ def setup_redis():
     db = redis.StrictRedis(host='localhost', port=6379, db=0)
 
 
-@gendo.listen_for('selfie me')
-def selfie_me(user, message):
-    matches = re.findall('selfie me(.*)', message)
-    if not matches:
-        return
-    message = matches[0].strip()
-
-
 @gendo.listen_for('cookies')
 def cookies(user, message):
     return "I *LOVE* COOOOOOOOKIES!!!!"
