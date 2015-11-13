@@ -39,20 +39,31 @@ def image_me(user, message):
     matches = re.findall('image me(.*)', message)
     if not matches:
         return
-    message = matches[0].strip()
+    query = matches[0].strip()
+    results = _search_google_images(query)
+    if results:
+        while True:
+            image_url = _get_random_image(results)
+            if _verify_image(image_url):
+                return image_url
+
+
+def _verify_image(url):
+    resp = requests.get(url)
+    is_working = resp.ok
+    content_type = resp.headers.get('Content-Type', '')
+    if is_working and 'image' in content_type:
+        return True
+    return False
+
+
+def _search_google_images(query):
+    results = []
     url = 'https://ajax.googleapis.com/ajax/services/search/images'
-    resp = requests.get(url, params={'v': '1.0', 'q': message})
+    resp = requests.get(url, params={'v': '1.0', 'q': query})
     if resp.ok:
         results = resp.json().get('responseData', {}).get('results', [])
-        if results:
-            # make sure we get a working image
-            while True:
-                image_url = _get_random_image(results)
-                resp = requests.get(image_url)
-                is_working = resp.ok
-                content_type = resp.headers.get('Content-Type', '')
-                if is_working and 'image' in content_type:
-                    return image_url
+    return results
 
 
 def _get_random_image(results):
