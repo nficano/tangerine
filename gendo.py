@@ -24,6 +24,14 @@ def setup_redis():
     db = redis.StrictRedis(host='localhost', port=6379, db=0)
 
 
+@gendo.listen_for('selfie me')
+def selfie_me(user, message):
+    matches = re.findall('selfie me(.*)', message)
+    if not matches:
+        return
+    message = matches[0].strip()
+
+
 @gendo.listen_for('cookies')
 def cookies(user, message):
     return "I *LOVE* COOOOOOOOKIES!!!!"
@@ -48,8 +56,10 @@ def image_me(user, message):
             # make sure we get a working image
             while True:
                 image_url = _get_random_image(results)
-                is_working = requests.get(image_url).ok
-                if is_working:
+                resp = requests.get(image_url)
+                is_working = resp.ok
+                content_type = resp.headers.get('Content-Type', '')
+                if is_working and 'image' in content_type:
                     return image_url
 
 
