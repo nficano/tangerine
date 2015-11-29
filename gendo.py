@@ -16,11 +16,6 @@ def cookies(user, message):
     return "I *LOVE* COOOOOOOOKIES!!!!"
 
 
-@gendo.listen_for('welcome back buddy')
-def welcome_back_buddy(user, message):
-    return "thanks {username}"
-
-
 @gendo.listen_for('morning')
 def morning(user, message):
     # make sure message is morning and doesn't just contain it.
