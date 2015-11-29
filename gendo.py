@@ -1,5 +1,4 @@
 import os
-import yaml
 import random
 import re
 import requests
@@ -7,13 +6,7 @@ from gendo import Gendo
 
 path = os.path.dirname(os.path.abspath(__file__))
 path_to_yaml = os.path.join(path, 'config.yaml')
-
-with open(path_to_yaml, 'r') as ymlfile:
-    cfg = yaml.load(ymlfile)
-
-channel = cfg.get('gendo', {}).get('channel')
-token = cfg.get('gendo', {}).get('auth_token')
-gendo = Gendo(__name__, token, channel)
+gendo = Gendo.config_from_yaml(__name__, path_to_yaml)
 
 
 @gendo.listen_for('cookies')
@@ -23,7 +16,7 @@ def cookies(user, message):
 
 @gendo.listen_for('morning')
 def morning(user, message):
-    return "mornin' @{0}".format(gendo.get_user_name(user))
+    return "mornin' @{username}"
 
 
 @gendo.listen_for('image me')
@@ -55,7 +48,7 @@ def _search_google_images(query):
     params = {
         'v': '1.0',
         'q': query,
-        'safe': 'off'
+        'safe': gendo.settings.get('image_me', {}).get('safe_search', 'off')
     }
     if 'gif' in query:
         params['as_filetype'] = 'gif'
