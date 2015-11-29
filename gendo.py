@@ -1,5 +1,4 @@
 import os
-import redis
 import yaml
 import random
 import re
@@ -15,13 +14,6 @@ with open(path_to_yaml, 'r') as ymlfile:
 channel = cfg.get('gendo', {}).get('channel')
 token = cfg.get('gendo', {}).get('auth_token')
 gendo = Gendo(__name__, token, channel)
-
-db = None
-
-
-def setup_redis():
-    global db
-    db = redis.StrictRedis(host='localhost', port=6379, db=0)
 
 
 @gendo.listen_for('cookies')
@@ -78,75 +70,5 @@ def _get_random_image(results):
     idx = random.randint(min_int, max_int)
     return results[idx].get('url')
 
-
-@gendo.listen_for('sneaky fish count')
-def sneaky_fish_counts(user, message):
-    report = []
-    if not get_total_sneaky_fishes():
-        return "no sneaky fishes"
-    for user_id, count in get_all_sneaky_fishes():
-        suffix = ('' if count == 1 else 's')
-        report.append("{0} has {1} accusation{2}.".format(
-            gendo.get_user_name(user_id), int(count), suffix))
-    return '```' + '\n'.join(report) + '```'
-
-
-@gendo.listen_for('is a sneaky fish')
-def sneaky_fish(user, message):
-    fishes = re.findall('<\@([0-9A-Z]*)>', message)
-    current_sneakiest_fish = get_sneakest_fish()
-
-    if len(fishes) == 0:
-        # a sneaky fish is required.
-        return
-
-    # unique fishes only
-    fishes = set(fishes)
-    for user_id in fishes:
-        name = gendo.get_user_name(user_id)
-        if get_count_for_user(user_id) == 0:
-            gendo.speak("{0} is *now* a sneaky fish".format(name))
-        set_sneaky_fish(user_id)
-
-    user_id = get_sneakest_fish()
-    if not current_sneakiest_fish:
-        return "{0} is sneakiest fish".format(
-            gendo.get_user_name(user_id))
-    elif current_sneakiest_fish == user_id:
-        return "{0} is _still_ the sneakiest fish".format(
-            gendo.get_user_name(current_sneakiest_fish))
-    else:
-        return "{0} has become the sneakiest fish".format(
-            gendo.get_user_name(user_id))
-
-
-def set_sneaky_fish(user_id):
-    db.zincrby("sneaky_fishes", user_id)
-
-
-def get_count_for_user(user_id):
-    res = db.zscore("sneaky_fishes", user_id)
-    if not res:
-        return 0
-    return res
-
-
-def get_all_sneaky_fishes():
-    return db.zrevrangebyscore("sneaky_fishes", "+inf", "-inf",
-                               withscores=True)
-
-
-def get_total_sneaky_fishes():
-    return db.zcount("sneaky_fishes", "-inf", "+inf")
-
-
-def get_sneakest_fish():
-    sneaky_fishes = get_all_sneaky_fishes()
-    if sneaky_fishes:
-        sneakest_fish, _ = sneaky_fishes[0]
-        return sneakest_fish
-    return None
-
 if __name__ == '__main__':
-    setup_redis()
     gendo.run()
