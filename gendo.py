@@ -1,6 +1,8 @@
+import datetime
 import os
 import random
 import re
+
 import requests
 from gendo import Gendo
 
@@ -16,7 +18,11 @@ def cookies(user, message):
 
 @gendo.listen_for('morning')
 def morning(user, message):
-    return "mornin' @{username}"
+    # make sure message is morning and doesn't just contain it.
+    if message.strip() == "morning":
+        now = datetime.datetime.now()
+        if now.time() < datetime.time(12):
+            return "mornin' @{username}"
 
 
 @gendo.listen_for('image me')
