@@ -60,7 +60,14 @@ def _verify_image(url):
 def _search_google_images(query):
     results = []
     url = 'https://ajax.googleapis.com/ajax/services/search/images'
-    resp = requests.get(url, params={'v': '1.0', 'q': query})
+    params = {
+        'v': '1.0',
+        'q': query,
+        'safe': 'off'
+    }
+    if 'gif' in query:
+        params['as_filetype'] = 'gif'
+    resp = requests.get(url, params=params)
     if resp.ok:
         results = resp.json().get('responseData', {}).get('results', [])
     return results
