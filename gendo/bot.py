@@ -15,6 +15,7 @@ class Gendo(object):
     def __init__(self, slack_token=None, channel=None, settings=None):
         self.settings = settings or {}
         self.listeners = []
+        self.scheduled_tasks = []
         self.client = SlackClient(
             slack_token or self.settings.get('gendo', {}).get('auth_token'))
         self.channel = channel or self.settings.get('gendo', {}).get('channel')
@@ -29,6 +30,12 @@ class Gendo(object):
     def listen_for(self, rule, **options):
         def decorator(f):
             self.add_listener(rule, f, **options)
+            return f
+        return decorator
+
+    def cron(self, schedule, **options):
+        def decorator(f):
+            self.add_cron(schedule, f, **options)
             return f
         return decorator
 
@@ -66,6 +73,9 @@ class Gendo(object):
 
     def add_listener(self, rule, view_func=None, **options):
         self.listeners.append((rule, view_func, options))
+
+    def add_listener(self, schedule, view_func=None, **options):
+        self.scheduled_tasks.append((schedule, view_func, options))
 
     def speak(self, message):
         self.client.api_call("chat.postMessage", as_user="true:",
