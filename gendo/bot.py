@@ -1,6 +1,9 @@
-import logging
 import json
+import logging
+import os
+import sys
 import time
+
 from slackclient import SlackClient
 from . import __version__
 import yaml
@@ -44,14 +47,17 @@ class Gendo(_PackageBoundObject):
                         message = data[0].get('text')
                         self.respond(user, message)
                 except (KeyboardInterrupt, SystemExit):
-                    print "Shutting down..."
-                    break
+                    print "attempting graceful shutdown down..."
+                    try:
+                        sys.exit(0)
+                    except SystemExit:
+                        os._exit(0)
 
     def respond(self, user, message):
         if not message:
             return
         elif message == 'version':
-            self.speak("Gendo {0}".format(__version__))
+            self.speak("Gendo v{0}".format(__version__))
             return
         for phrase, view_func, options in self.listeners:
             if phrase in message.lower():
