@@ -56,7 +56,7 @@ class Gendo(_PackageBoundObject):
     def respond(self, user, message):
         if not message:
             return
-        elif message == 'version':
+        elif message == 'gendo version':
             self.speak("Gendo v{0}".format(__version__))
             return
         for phrase, view_func, options in self.listeners:
