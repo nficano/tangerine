@@ -8,7 +8,7 @@ from gendo import Gendo
 
 path = os.path.dirname(os.path.abspath(__file__))
 path_to_yaml = os.path.join(path, 'config.yaml')
-gendo = Gendo.config_from_yaml(__name__, path_to_yaml)
+gendo = Gendo.config_from_yaml(path_to_yaml)
 
 
 @gendo.listen_for('cookies')

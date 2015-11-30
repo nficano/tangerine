@@ -8,15 +8,11 @@ from slackclient import SlackClient
 from . import __version__
 import yaml
 
-from .helpers import _PackageBoundObject
-
 log = logging.getLogger(__name__)
 
 
-class Gendo(_PackageBoundObject):
-    def __init__(self, import_name, slack_token=None, channel=None,
-                 settings=None):
-        _PackageBoundObject.__init__(self, import_name)
+class Gendo(object):
+    def __init__(self, slack_token=None, channel=None, settings=None):
         self.settings = settings or {}
         self.listeners = []
         self.client = SlackClient(
@@ -25,10 +21,10 @@ class Gendo(_PackageBoundObject):
         self.sleep = 0.5 or self.settings.get('gendo', {}).get('sleep')
 
     @classmethod
-    def config_from_yaml(cls, import_name, path_to_yaml):
+    def config_from_yaml(cls, path_to_yaml):
         with open(path_to_yaml, 'r') as ymlfile:
             settings = yaml.load(ymlfile)
-            return cls(import_name, settings=settings)
+            return cls(settings=settings)
 
     def listen_for(self, rule, **options):
         def decorator(f):
