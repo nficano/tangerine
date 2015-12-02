@@ -22,7 +22,7 @@ def morning(user, message):
     if message.strip() == "morning":
         now = datetime.datetime.now()
         if now.time() < datetime.time(12):
-            return "mornin' @{username}"
+            return "mornin' @{user.username}"
 
 
 @gendo.listen_for('image me')

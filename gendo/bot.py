@@ -68,8 +68,8 @@ class Gendo(object):
             if phrase in message.lower():
                 response = view_func(user, message, **options)
                 if response:
-                    if '{username}' in response:
-                        response = response.replace('{username}',
+                    if '{user.username}' in response:
+                        response = response.replace('{user.username}',
                                                     self.get_user_name(user))
                     self.speak(response)
 
