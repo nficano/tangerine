@@ -40,8 +40,9 @@ class Gendo(object):
         return decorator
 
     def run(self):
+        stop_signal = True
         if self.client.rtm_connect():
-            while True:
+            while stop_signal:
                 time.sleep(self.sleep)
                 try:
                     data = self.client.rtm_read()
@@ -51,10 +52,11 @@ class Gendo(object):
                         self.respond(user, message)
                 except (KeyboardInterrupt, SystemExit):
                     print "attempting graceful shutdown..."
-                    try:
-                        sys.exit(0)
-                    except SystemExit:
-                        os._exit(0)
+                    stop_signal = False
+        try:
+            sys.exit(0)
+        except SystemExit:
+            os._exit(0)
 
     def respond(self, user, message):
         if not message:
@@ -73,9 +75,6 @@ class Gendo(object):
 
     def add_listener(self, rule, view_func=None, **options):
         self.listeners.append((rule, view_func, options))
-
-    def add_listener(self, schedule, view_func=None, **options):
-        self.scheduled_tasks.append((schedule, view_func, options))
 
     def speak(self, message):
         self.client.api_call("chat.postMessage", as_user="true:",
