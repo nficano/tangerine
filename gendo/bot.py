@@ -40,9 +40,9 @@ class Gendo(object):
         return decorator
 
     def run(self):
-        stop_signal = True
+        running = True
         if self.client.rtm_connect():
-            while stop_signal:
+            while running:
                 time.sleep(self.sleep)
                 try:
                     data = self.client.rtm_read()
@@ -52,7 +52,7 @@ class Gendo(object):
                         self.respond(user, message)
                 except (KeyboardInterrupt, SystemExit):
                     print "attempting graceful shutdown..."
-                    stop_signal = False
+                    running = False
         try:
             sys.exit(0)
         except SystemExit:
