@@ -1,3 +1,5 @@
+#!/usr/bin/env/python
+# -*- coding: utf-8 -*-
 import datetime
 import os
 from gendo import Gendo
@@ -14,7 +16,7 @@ def cookies(user, message):
 
 @gendo.listen_for('morning')
 def morning(user, message):
-    # make sure message is morning and doesn't just contain it.
+    # make sure message is "morning" and doesn't just contain it.
     if message.strip() == "morning":
         now = datetime.datetime.now()
         if now.time() < datetime.time(12):
