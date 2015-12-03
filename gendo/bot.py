@@ -53,7 +53,7 @@ class Gendo(object):
                         message = data[0].get('text')
                         self.respond(user, message)
                 except (KeyboardInterrupt, SystemExit):
-                    print "attempting graceful shutdown..."
+                    log.info("attempting graceful shutdown...")
                     running = False
         try:
             sys.exit(0)
