@@ -1,31 +1,33 @@
-import logging
+#!/usr/bin/env/python
+# -*- coding: utf-8 -*-
 import json
+import logging
+import os
+import sys
 import time
+
 from slackclient import SlackClient
 from . import __version__
 import yaml
 
-from .helpers import _PackageBoundObject
-
 log = logging.getLogger(__name__)
 
 
-class Gendo(_PackageBoundObject):
-    def __init__(self, import_name, slack_token=None, channel=None,
-                 settings=None):
-        _PackageBoundObject.__init__(self, import_name)
+class Gendo(object):
+    def __init__(self, slack_token=None, channel=None, settings=None):
         self.settings = settings or {}
         self.listeners = []
+        self.scheduled_tasks = []
         self.client = SlackClient(
             slack_token or self.settings.get('gendo', {}).get('auth_token'))
         self.channel = channel or self.settings.get('gendo', {}).get('channel')
         self.sleep = 0.5 or self.settings.get('gendo', {}).get('sleep')
 
     @classmethod
-    def config_from_yaml(cls, import_name, path_to_yaml):
+    def config_from_yaml(cls, path_to_yaml):
         with open(path_to_yaml, 'r') as ymlfile:
             settings = yaml.load(ymlfile)
-            return cls(import_name, settings=settings)
+            return cls(settings=settings)
 
     def listen_for(self, rule, **options):
         def decorator(f):
@@ -33,9 +35,16 @@ class Gendo(_PackageBoundObject):
             return f
         return decorator
 
+    def cron(self, schedule, **options):
+        def decorator(f):
+            self.add_cron(schedule, f, **options)
+            return f
+        return decorator
+
     def run(self):
+        running = True
         if self.client.rtm_connect():
-            while True:
+            while running:
                 time.sleep(self.sleep)
                 try:
                     data = self.client.rtm_read()
@@ -44,21 +53,25 @@ class Gendo(_PackageBoundObject):
                         message = data[0].get('text')
                         self.respond(user, message)
                 except (KeyboardInterrupt, SystemExit):
-                    print "Shutting down..."
-                    break
+                    print "attempting graceful shutdown..."
+                    running = False
+        try:
+            sys.exit(0)
+        except SystemExit:
+            os._exit(0)
 
     def respond(self, user, message):
         if not message:
             return
-        elif message == 'version':
-            self.speak("Gendo {0}".format(__version__))
+        elif message == 'gendo version':
+            self.speak("Gendo v{0}".format(__version__))
             return
         for phrase, view_func, options in self.listeners:
             if phrase in message.lower():
                 response = view_func(user, message, **options)
                 if response:
-                    if '{username}' in response:
-                        response = response.replace('{username}',
+                    if '{user.username}' in response:
+                        response = response.replace('{user.username}',
                                                     self.get_user_name(user))
                     self.speak(response)
 
