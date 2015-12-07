@@ -14,13 +14,12 @@ log = logging.getLogger(__name__)
 
 
 class Gendo(object):
-    def __init__(self, slack_token=None, channel=None, settings=None):
+    def __init__(self, slack_token=None, settings=None):
         self.settings = settings or {}
         self.listeners = []
         self.scheduled_tasks = []
         self.client = SlackClient(
             slack_token or self.settings.get('gendo', {}).get('auth_token'))
-        self.channel = channel or self.settings.get('gendo', {}).get('channel')
         self.sleep = 0.5 or self.settings.get('gendo', {}).get('sleep')
 
     @classmethod
@@ -51,7 +50,8 @@ class Gendo(object):
                     if data and data[0].get('type') == 'message':
                         user = data[0].get('user')
                         message = data[0].get('text')
-                        self.respond(user, message)
+                        channel = data[0].get('channel')
+                        self.respond(user, message, channel)
                 except (KeyboardInterrupt, SystemExit):
                     log.info("attempting graceful shutdown...")
                     running = False
@@ -60,7 +60,7 @@ class Gendo(object):
         except SystemExit:
             os._exit(0)
 
-    def respond(self, user, message):
+    def respond(self, user, message, channel):
         if not message:
             return
         elif message == 'gendo version':
@@ -73,14 +73,14 @@ class Gendo(object):
                     if '{user.username}' in response:
                         response = response.replace('{user.username}',
                                                     self.get_user_name(user))
-                    self.speak(response)
+                    self.speak(response, channel)
 
     def add_listener(self, rule, view_func=None, **options):
         self.listeners.append((rule, view_func, options))
 
-    def speak(self, message):
+    def speak(self, message, channel):
         self.client.api_call("chat.postMessage", as_user="true:",
-                             channel=self.channel, text=message)
+                             channel=channel, text=message)
 
     def get_user_info(self, user_id):
         user = self.client.api_call('users.info', user=user_id)
