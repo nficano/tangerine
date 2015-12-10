@@ -1,6 +1,5 @@
 #!/usr/bin/env/python
 # -*- coding: utf-8 -*-
-import datetime
 import os
 from gendo import Gendo
 
@@ -18,11 +17,7 @@ def cookies(user, message):
 def morning(user, message):
     # make sure message is "morning" and doesn't just contain it.
     if message.strip() == "morning":
-        now = datetime.datetime.now()
-        if now.time() < datetime.time(12):
-            return "mornin' @{user.username}"
-        else:
-            return "afternoon @{user.username}"
+        return "mornin' @{user.username}"
 
 if __name__ == '__main__':
     gendo.run()
