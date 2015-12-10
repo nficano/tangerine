@@ -21,6 +21,8 @@ def morning(user, message):
         now = datetime.datetime.now()
         if now.time() < datetime.time(12):
             return "mornin' @{user.username}"
+        else:
+            return "afternoon @{user.username}"
 
 if __name__ == '__main__':
     gendo.run()
