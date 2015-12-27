@@ -24,34 +24,66 @@ have a Slack bot up and running in minutes.
 Installation
 ============
 
-1. Clone the repository locally:
+1. In a new project folder for your bot:
 
 .. code:: bash
 
-    git clone git@github.com:nficano/gendo.git
+   mkdir myslackbot
+   cd myslackbot
 
-
-2. `cd` into the repo and install the dependencies:
-
-.. code:: bash
-
-    pip install -r requirements.txt
-
-
-3. Duplicate/rename the sample config.yaml file.
+2. Install gendobot from _pypi_.
 
 .. code:: bash
 
-    cp config.yaml.sample config.yaml
+    pip install gendobot
 
-
-4. Edit the config file adding your Slack API token and channel name.
-5. Run the client!
+3. Make a new file for your bot's config:
 
 .. code:: bash
 
-    python gendo.py
+    touch config.yaml
 
-Todo
-=====
-add some fishing unit tests
+4. In your favorite text editor, edit config.yaml with the following:
+
+.. code:: yaml
+
+    gendo:
+      channel: "#general"
+      auth_token: "xoxb-1234567890-replace-this-with-token-from-slack"
+
+
+4. Next make another file for your bot's logic:
+
+.. code:: bash
+
+    touch mybot.py
+
+
+5. Also in your favorite text editor, edit mybot.py with the following:
+
+
+.. code:: python
+
+    #!/usr/bin/env/python
+    # -*- coding: utf-8 -*-
+    import os
+    from gendo import Gendo
+
+    path = os.path.dirname(os.path.abspath(__file__))
+    path_to_yaml = os.path.join(path, 'config.yaml')
+    gendo = Gendo.config_from_yaml(path_to_yaml)
+
+
+    @gendo.listen_for('morning')
+    def morning(user, message):
+        return "mornin' @{user.username}"
+
+    if __name__ == '__main__':
+       gendo.run()
+
+
+6. Now try running it, run the following command then say "morning" in Slack.
+
+.. code:: bash
+
+    python mybot.py
