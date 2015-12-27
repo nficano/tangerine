@@ -2,22 +2,24 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
 from setuptools import setup, find_packages
-from gendo import __version__
+from itertools import ifilter
+from os import path
+from ast import parse
 import pip
 requirements = pip.req.parse_requirements("requirements.txt",
                                           session=pip.download.PipSession())
 
 pip_requirements = [str(r.req) for r in requirements]
-for line in open('requirements.txt').readlines():
-    li = line.strip()
-    if not li.startswith("#"):
-        pip_requirements.append(line)
 
 with open('README.rst') as readme_file:
     readme = readme_file.read()
 
 with open('LICENSE.txt') as readme_file:
     license = readme_file.read()
+
+with open(path.join('gendo', '__init__.py')) as f:
+    __version__ = parse(next(ifilter(
+        lambda line: line.startswith('__version__'), f))).body[0].value.s
 
 setup(
     name='gendobot',
