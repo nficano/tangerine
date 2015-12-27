@@ -3,8 +3,11 @@
 from __future__ import absolute_import
 from setuptools import setup, find_packages
 from gendo import __version__
+import pip
+requirements = pip.req.parse_requirements("requirements.txt",
+                                          session=pip.download.PipSession())
 
-pip_requirements = []
+pip_requirements = [str(r.req) for r in requirements]
 for line in open('requirements.txt').readlines():
     li = line.strip()
     if not li.startswith("#"):
