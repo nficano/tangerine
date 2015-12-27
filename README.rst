@@ -17,8 +17,57 @@ Gendo for Slack
 Description
 ===========
 
-Gendo is a Slack bot/wrapper around Python's SlackClient, that allows anyone to
-have a Slack bot up and running in minutes.
+Gendo is a lightweight Slackbot framework that abstracts away all the
+boilerplate code required to write bots, allowing you to focus on the problem
+at hand.
+
+
+Basic Usage
+===========
+
+To start your project, you'll first need to import gendo by adding
+``from gendo import Gendo`` to the top of your file.
+
+Next you'll need to create an instance of Gendo and configure your Slack token.
+This can be done using a yaml config file or pass it explitially to the init.
+
+.. code:: python
+
+    # Option 1: YAML config:
+    import os
+    from gendo import Gendo
+
+    path = os.path.dirname(os.path.abspath(__file__))
+    path_to_yaml = os.path.join(path, 'config.yaml')
+    gendo = Gendo.config_from_yaml(path_to_yaml)
+
+    # Option 2: Hardcoded slack token
+    from gendo import Gendo
+    gendo = Gendo("xoxb-1234567890-replace-this-with-token-from-slack")
+
+Now its time to write your ``respond`` functions, these functions get wrapped
+with the ``listen_for`` decorator, which then register the pattern to listen
+for and which python function should handle it.
+
+In the following example, the method is setup to listen for the word "cookies",
+the decorator passes 2 arguments to the function, first is the ``user`` object
+which contains information about the user who triggered the event (in this case
+the Slack user who said the word cookies) and ``message``, which is a string of
+the complete message.
+
+.. code:: python
+
+   @gendo.listen_for('cookies')
+    def cookies(user, message):
+
+Finally your script needs to sit inside a loop and wait for this activity, to
+do this we add the following to the end of your script:
+
+.. code:: python
+
+    if __name__ == '__main__':
+       gendo.run()
+
 
 
 Installation
