@@ -17,7 +17,7 @@ with open('LICENSE.txt') as readme_file:
     license = readme_file.read()
 
 setup(
-    name='gendo',
+    name='gendobot',
     author='Nick Ficano',
     author_email='nficano@gmail.com',
     version=__version__,
