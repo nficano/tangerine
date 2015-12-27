@@ -2,6 +2,18 @@
 Gendo for Slack
 ===============
 
+.. image:: https://img.shields.io/pypi/v/gendo.svg
+  :alt: Pypi
+  :target: https://pypi.python.org/pypi/gendo/
+
+.. image:: https://img.shields.io/pypi/pyversions/gendo.svg
+  :alt: Python Versions
+  :target: https://pypi.python.org/pypi/gendo/
+
+.. image:: https://travis-ci.org/nficano/gendo.svg?branch=master
+   :alt: Build status
+   :target: https://travis-ci.org/nficano/gendo
+
 Description
 ===========
 
