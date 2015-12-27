@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
 from setuptools import setup, find_packages
-from jotonce import __version__
+from gendo import __version__
 
 pip_requirements = []
 for line in open('requirements.txt').readlines():
