@@ -145,4 +145,4 @@ Installation
 
     @gendo.cron('*/5 * * * *')
     def some_task():
-        gendo.speak("every 5 minutes", "#leakychat")
+        gendo.speak("every 5 minutes", "#general")
