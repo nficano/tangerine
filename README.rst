@@ -89,7 +89,7 @@ Installation
     python mybot.py
 
 
- 7. Next let's add a task that runs every 5 minutes, simply add the following to your *mybot.py* file:
+7. Next let's add a task that runs every 5 minutes, simply add the following to your *mybot.py* file:
 
 .. code:: python
 
