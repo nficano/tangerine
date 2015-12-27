@@ -61,8 +61,8 @@ which is a string of the complete message.
     def cookies(user, message):
 
 Finally your script needs to sit inside a loop, monitor whats said in a slack
-channel and respond to the messages accordingly.
-do this we add the following to the end of your script:
+channel and respond to the messages accordingly. To do this we add the
+following to the end of your script:
 
 .. code:: python
 
