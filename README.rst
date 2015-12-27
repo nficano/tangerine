@@ -50,7 +50,7 @@ with the ``listen_for`` decorator, which then registers the pattern to listen
 for and keeps track of which function should handle it.
 
 In the following example, the method is setup to listen for the word "cookies".
-Notice that the decorator passes 2 arguments to the function, first is the
+Notice that the decorator passes 2 arguments to the function, first the
 ``user`` object which contains information about the user who triggered the
 event (in this case the Slack user who said the word cookies) and ``message``,
 which is a string of the complete message.
@@ -60,7 +60,8 @@ which is a string of the complete message.
    @gendo.listen_for('cookies')
     def cookies(user, message):
 
-Finally your script needs to sit inside a loop and wait for this activity, to
+Finally your script needs to sit inside a loop, monitor whats said in a slack
+channel and respond to the messages accordingly.
 do this we add the following to the end of your script:
 
 .. code:: python
