@@ -29,7 +29,7 @@ To start your project, you'll first need to import gendo by adding
 ``from gendo import Gendo`` to the top of your file.
 
 Next you'll need to create an instance of Gendo and configure your Slack token.
-This can be done using a yaml config file or passing it explitially to the init.
+This can be done using a yaml config file or passing it explicitly to the init.
 
 .. code:: python
 
