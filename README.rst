@@ -46,8 +46,8 @@ This can be done using a yaml config file or passing it explicitly to the init.
     gendo = Gendo("xoxb-1234567890-replace-this-with-token-from-slack")
 
 Now its time to write your ``response`` functions, these functions get wrapped
-with the ``listen_for`` decorator, which then registers the pattern to listen
-for and keeps track of which function should handle it.
+with the ``listen_for`` decorator, which registers a pattern to watch the slack
+conversation for and which python method should handle it once its said.
 
 In the following example, the method is setup to listen for the word "cookies".
 Notice that the decorator passes 2 arguments to the function, first the
