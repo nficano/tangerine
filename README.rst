@@ -29,20 +29,20 @@ Installation
 
 .. code:: bash
 
-   mkdir myslackbot
-   cd myslackbot
+   $ mkdir myslackbot
+   $ cd myslackbot
 
 2. Install gendobot from *pypi*.
 
 .. code:: bash
 
-    pip install gendobot
+    $ pip install gendobot
 
 3. Make a new file for your bot's config:
 
 .. code:: bash
 
-    touch config.yaml
+    $ touch config.yaml
 
 4. In your favorite text editor, edit *config.yaml* with the following:
 
@@ -57,7 +57,7 @@ Installation
 
 .. code:: bash
 
-    touch mybot.py
+    $ touch mybot.py
 
 
 5. Also in your favorite text editor, edit *mybot.py* with the following:
@@ -87,7 +87,7 @@ Installation
 
 .. code:: bash
 
-    python mybot.py
+    $ python mybot.py
 
 
 7. Next let's add a task that runs every five minutes, simply add the following to
