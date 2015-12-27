@@ -90,21 +90,6 @@ Installation
     $ python mybot.py
 
 
-7. Next let's add a task that runs every five minutes, simply add the following to
-   your *mybot.py* file:
-
-.. code:: python
-
-    @gendo.cron('*/5 * * * *')
-    def some_task():
-        gendo.speak("Hay Ride!", "#general")
-
-
-See https://en.wikipedia.org/wiki/Cron#Configuration_file for more details on
-crontab syntax.
-
-
-
 Basic Usage
 ===========
 
@@ -155,3 +140,24 @@ following to the end of your script:
 
     if __name__ == '__main__':
        gendo.run()
+
+
+Crontab (experimental)
+-----------------------
+
+Sometimes you'll run into situations where you want Slack messages to be sent
+periodically rather than in direct response to a keyword, for this Gendo ships
+with a single-threaded Python implementation of Cron.
+
+Let's pretend we want to send a message to everyone in a channel every five
+minutes, simply add the following to your *mybot.py* file:
+
+.. code:: python
+
+    @gendo.cron('*/5 * * * *')
+    def some_task():
+        gendo.speak("Hay Ride!", "#general")
+
+
+See https://en.wikipedia.org/wiki/Cron#Configuration_file for more details on
+crontab syntax.
