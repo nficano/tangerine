@@ -87,3 +87,12 @@ Installation
 .. code:: bash
 
     python mybot.py
+
+
+ 7. Next let's add a task that runs every 5 minutes, simply add the following to your *mybot.py* file:
+
+.. code:: python
+
+    @gendo.cron('*/5 * * * *')
+    def some_task():
+        gendo.speak("every 5 minutes", "#leakychat")
