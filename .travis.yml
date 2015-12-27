@@ -2,11 +2,9 @@ language: python
 python:
   - "2.7"
 # command to install dependencies
-install: "pip install -r requirements.txt"
-install: "pip install flake8"
+install: "pip install -r requirements.txt && pip install flake8==2.5.1"
 # command to run tests
-script: nosetests
-script: "flake8 ."
+script: nosetests && flake8
 branches:
   only:
     - master
