@@ -29,7 +29,7 @@ To start your project, you'll first need to import gendo by adding
 ``from gendo import Gendo`` to the top of your file.
 
 Next you'll need to create an instance of Gendo and configure your Slack token.
-This can be done using a yaml config file or pass it explitially to the init.
+This can be done using a yaml config file or passing it explitially to the init.
 
 .. code:: python
 
@@ -45,9 +45,9 @@ This can be done using a yaml config file or pass it explitially to the init.
     from gendo import Gendo
     gendo = Gendo("xoxb-1234567890-replace-this-with-token-from-slack")
 
-Now its time to write your ``respond`` functions, these functions get wrapped
-with the ``listen_for`` decorator, which then register the pattern to listen
-for and which python function should handle it.
+Now its time to write your ``response`` functions, these functions get wrapped
+with the ``listen_for`` decorator, which then registers the pattern to listen
+for and keeping track of which function should handle it.
 
 In the following example, the method is setup to listen for the word "cookies",
 the decorator passes 2 arguments to the function, first is the ``user`` object
