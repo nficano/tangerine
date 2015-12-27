@@ -43,7 +43,7 @@ Installation
 
     touch config.yaml
 
-4. In your favorite text editor, edit config.yaml with the following:
+4. In your favorite text editor, edit `config.yaml` with the following:
 
 .. code:: yaml
 
@@ -59,7 +59,7 @@ Installation
     touch mybot.py
 
 
-5. Also in your favorite text editor, edit mybot.py with the following:
+5. Also in your favorite text editor, edit `mybot.py` with the following:
 
 
 .. code:: python
