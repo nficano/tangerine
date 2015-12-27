@@ -67,12 +67,8 @@ Installation
 
     #!/usr/bin/env/python
     # -*- coding: utf-8 -*-
-    import os
     from gendo import Gendo
-
-    path = os.path.dirname(os.path.abspath(__file__))
-    path_to_yaml = os.path.join(path, 'config.yaml')
-    gendo = Gendo.config_from_yaml(path_to_yaml)
+    gendo = Gendo("xoxb-1234567890-replace-this-with-token-from-slack")
 
 
     @gendo.listen_for('morning')
