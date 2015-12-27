@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 import time
 import datetime
+from crontab import CronTab
 
 
 class Task(object):
@@ -13,7 +14,8 @@ class Task(object):
 
     def get_next_run(self, schedule):
         now = datetime.datetime.now()
-        delta = datetime.timedelta(minutes=int(schedule))
+        entry = CronTab(schedule)
+        delta = datetime.timedelta(0, entry.next())
         return now + delta
 
     def run(self):
@@ -51,12 +53,12 @@ class Scheduler(object):
 scheduler = Scheduler()
 
 
-@scheduler.cron("1")
+@scheduler.cron('*/1 * * * *')
 def task1():
     print "task1"
 
 
-@scheduler.cron("2")
+@scheduler.cron('*/2 * * * *')
 def task2():
     print "task2"
 
