@@ -47,13 +47,13 @@ This can be done using a yaml config file or passing it explitially to the init.
 
 Now its time to write your ``response`` functions, these functions get wrapped
 with the ``listen_for`` decorator, which then registers the pattern to listen
-for and keeping track of which function should handle it.
+for and keeps track of which function should handle it.
 
-In the following example, the method is setup to listen for the word "cookies",
-the decorator passes 2 arguments to the function, first is the ``user`` object
-which contains information about the user who triggered the event (in this case
-the Slack user who said the word cookies) and ``message``, which is a string of
-the complete message.
+In the following example, the method is setup to listen for the word "cookies".
+Notice that the decorator passes 2 arguments to the function, first is the
+``user`` object which contains information about the user who triggered the
+event (in this case the Slack user who said the word cookies) and ``message``,
+which is a string of the complete message.
 
 .. code:: python
 
