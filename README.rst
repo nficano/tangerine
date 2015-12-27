@@ -144,7 +144,7 @@ which is a string of the complete message.
 
    @gendo.listen_for('cookies')
     def cookies(user, message):
-        # pass
+        # do something when someone say's "cookies" here.
 
 Finally your script needs to sit inside a loop, monitor whats said in a slack
 channel and respond to the messages accordingly. To do this we add the
