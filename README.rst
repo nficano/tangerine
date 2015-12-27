@@ -83,14 +83,14 @@ Installation
        gendo.run()
 
 
-6. Now try running it, run the following command then say "morning" in Slack.
+6. Now try running it, run the following command then say "*morning*" in Slack.
 
 .. code:: bash
 
     python mybot.py
 
 
-7. Next let's add a task that runs every 5 minutes, simply add the following to
+7. Next let's add a task that runs every five minutes, simply add the following to
    your *mybot.py* file:
 
 .. code:: python
@@ -112,7 +112,8 @@ To start your project, you'll first need to import gendo by adding
 ``from gendo import Gendo`` to the top of your file.
 
 Next you'll need to create an instance of Gendo and configure your Slack token.
-This can be done using a yaml config file or passing it explicitly to the init.
+This can be done using a yaml config file or passing it explicitly to the
+initialization.
 
 .. code:: python
 
@@ -135,7 +136,7 @@ with the ``listen_for`` decorator, which registers a pattern to watch the slack
 conversation for and which python method should handle it once its said.
 
 In the following example, the method is setup to listen for the word "*cookies*".
-Notice that the decorator passes 2 arguments to the function, first the
+Notice that the decorator passes two arguments to the function, first the
 ``user`` object which contains information about the user who triggered the
 event (in this case the Slack user who said the word cookies) and ``message``,
 which is a string of the complete message.
