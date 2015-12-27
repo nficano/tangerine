@@ -90,13 +90,18 @@ Installation
     python mybot.py
 
 
-7. Next let's add a task that runs every 5 minutes, simply add the following to your *mybot.py* file:
+7. Next let's add a task that runs every 5 minutes, simply add the following to
+   your *mybot.py* file:
 
 .. code:: python
 
     @gendo.cron('*/5 * * * *')
     def some_task():
-        gendo.speak("every 5 minutes", "#general")
+        gendo.speak("Hay Ride!", "#general")
+
+
+See https://en.wikipedia.org/wiki/Cron#Configuration_file for more details on
+the syntax for crontab.
 
 
 
@@ -119,6 +124,8 @@ This can be done using a yaml config file or passing it explicitly to the init.
     path_to_yaml = os.path.join(path, 'config.yaml')
     gendo = Gendo.config_from_yaml(path_to_yaml)
 
+.. code:: python
+
     # Option 2: Hardcoded slack token
     from gendo import Gendo
     gendo = Gendo("xoxb-1234567890-replace-this-with-token-from-slack")
@@ -127,7 +134,7 @@ Now its time to write your ``response`` functions, these functions get wrapped
 with the ``listen_for`` decorator, which registers a pattern to watch the slack
 conversation for and which python method should handle it once its said.
 
-In the following example, the method is setup to listen for the word "cookies".
+In the following example, the method is setup to listen for the word "*cookies*".
 Notice that the decorator passes 2 arguments to the function, first the
 ``user`` object which contains information about the user who triggered the
 event (in this case the Slack user who said the word cookies) and ``message``,
@@ -137,6 +144,7 @@ which is a string of the complete message.
 
    @gendo.listen_for('cookies')
     def cookies(user, message):
+        # pass
 
 Finally your script needs to sit inside a loop, monitor whats said in a slack
 channel and respond to the messages accordingly. To do this we add the
