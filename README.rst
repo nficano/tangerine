@@ -101,7 +101,7 @@ Installation
 
 
 See https://en.wikipedia.org/wiki/Cron#Configuration_file for more details on
-the syntax for crontab.
+crontab syntax.
 
 
 
