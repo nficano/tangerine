@@ -1,71 +1,40 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
+from __future__ import absolute_import
+from setuptools import setup, find_packages
+from itertools import ifilter
+from os import path
+from ast import parse
+import pip
+requirements = pip.req.parse_requirements("requirements.txt",
+                                          session=pip.download.PipSession())
 
-import os
-import sys
-
-try:
-    from setuptools import setup
-except ImportError:
-    from distutils.core import setup
-
-version = "0.1.1"
-
-if sys.argv[-1] == 'publish':
-    os.system('python setup.py sdist upload')
-    os.system('python setup.py bdist_wheel upload')
-    sys.exit()
-
-if sys.argv[-1] == 'tag':
-    os.system("git tag -a %s -m 'version %s'" % (version, version))
-    os.system("git push --tags")
-    sys.exit()
+pip_requirements = [str(r.req) for r in requirements]
 
 with open('README.rst') as readme_file:
     readme = readme_file.read()
 
-requirements = []
+with open('LICENSE.txt') as readme_file:
+    license = readme_file.read()
 
-long_description = readme
-
-if sys.argv[-1] == 'readme':
-    print(long_description)
-    sys.exit()
-
+with open(path.join('gendo', '__init__.py')) as f:
+    __version__ = parse(next(ifilter(
+        lambda line: line.startswith('__version__'), f))).body[0].value.s
 
 setup(
-    name='gendo',
-    version=version,
-    description=(''),
-    long_description=long_description,
+    name='gendobot',
     author='Nick Ficano',
     author_email='nficano@gmail.com',
-    url='https://github.com/nficano/gendo',
-    packages=[
-        'gendo',
-    ],
-    package_dir={'gendo': 'gendo'},
-    include_package_data=True,
-    install_requires=requirements,
-    license='BSD',
+    version=__version__,
+    packages=find_packages(exclude=['tests*']),
+    url='http://nickficano.com',
+    description="a lightweight Slackbot framework for Python",
     zip_safe=False,
+    install_requires=pip_requirements,
+    long_description=readme,
+    license=license,
     classifiers=[
-        'Environment :: Console',
-        'Intended Audience :: Developers',
-        'Natural Language :: English',
-        'License :: OSI Approved :: BSD License',
-        'Programming Language :: Python',
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.3',
-        'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5',
-        'Programming Language :: Python :: Implementation :: CPython',
-        'Programming Language :: Python :: Implementation :: PyPy',
-        'Topic :: Software Development',
-    ],
-    keywords=(
-        'gendo',
-    ),
+        "Programming Language :: Python :: 2.7",
+        "Topic :: Internet",
+    ]
 )

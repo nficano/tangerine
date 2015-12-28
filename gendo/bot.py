@@ -2,11 +2,13 @@
 # -*- coding: utf-8 -*-
 import json
 import logging
+import datetime
 import os
 import sys
 import time
 
 from slackclient import SlackClient
+from scheduler import Task
 from . import __version__
 import yaml
 
@@ -45,6 +47,7 @@ class Gendo(object):
         if self.client.rtm_connect():
             while running:
                 time.sleep(self.sleep)
+                now = datetime.datetime.now()
                 try:
                     data = self.client.rtm_read()
                     if data and data[0].get('type') == 'message':
@@ -52,6 +55,12 @@ class Gendo(object):
                         message = data[0].get('text')
                         channel = data[0].get('channel')
                         self.respond(user, message, channel)
+
+                    for idx, task in enumerate(self.scheduled_tasks):
+                        if now > task.next_run:
+                            t = self.scheduled_tasks.pop(idx)
+                            t.run()
+                            self.add_cron(t.schedule, t.fn, **t.options)
                 except (KeyboardInterrupt, SystemExit):
                     log.info("attempting graceful shutdown...")
                     running = False
@@ -77,6 +86,9 @@ class Gendo(object):
 
     def add_listener(self, rule, view_func=None, **options):
         self.listeners.append((rule, view_func, options))
+
+    def add_cron(self, schedule, f, **options):
+        self.scheduled_tasks.append(Task(schedule, f, **options))
 
     def speak(self, message, channel):
         self.client.api_call("chat.postMessage", as_user="true:",
