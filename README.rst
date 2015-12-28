@@ -6,6 +6,10 @@ Gendo for Slack
   :alt: Pypi
   :target: https://pypi.python.org/pypi/gendobot/
 
+.. image:: https://img.shields.io/pypi/dm/gendobot.svg
+  :alt: Pypi downloads per month
+  :target: https://pypi.python.org/pypi/gendobot/
+
 .. image:: https://img.shields.io/pypi/pyversions/gendobot.svg
   :alt: Python Versions
   :target: https://pypi.python.org/pypi/gendobot/
