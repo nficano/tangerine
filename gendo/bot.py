@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 #!/usr/bin/env/python
 # -*- coding: utf-8 -*-
 import json
@@ -8,7 +9,7 @@ import sys
 import time
 
 from slackclient import SlackClient
-from scheduler import Task
+from .scheduler import Task
 from . import __version__
 import yaml
 
