@@ -37,12 +37,23 @@ setup(
     long_description=readme,
     license=license,
     classifiers=[
+        "Development Status :: 4 - Beta",
+        "Intended Audience :: Developers",
+        "Intended Audience :: System Administrators",
+        "License :: OSI Approved :: MIT License",
+        "Natural Language :: English",
+        "Operating System :: MacOS",
+        "Operating System :: Microsoft",
+        "Operating System :: POSIX",
+        "Operating System :: Unix",
         "Programming Language :: Python :: 2.6",
         "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3.3",
         "Programming Language :: Python :: 3.4",
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python",
+        "Topic :: Communications :: Chat",
         "Topic :: Internet",
+        "Topic :: Software Development :: Libraries",
     ]
 )
