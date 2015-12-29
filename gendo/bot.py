@@ -22,7 +22,7 @@ class Gendo(object):
         self.scheduled_tasks = []
         self.client = SlackClient(
             slack_token or self.settings.get('gendo', {}).get('auth_token'))
-        self.sleep = 0.5 or self.settings.get('gendo', {}).get('sleep')
+        self.sleep = self.settings.get('gendo', {}).get('sleep') or 0.5
 
     @classmethod
     def config_from_yaml(cls, path_to_yaml):
