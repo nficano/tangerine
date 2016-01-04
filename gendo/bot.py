@@ -31,10 +31,12 @@ class Gendo(object):
             settings = yaml.load(ymlfile)
             return cls(settings=settings)
 
-    def listen_for(self, rule, **options):
+    def listen_for(self, rule):
         def decorator(f):
-            self.add_listener(rule, f, **options)
-            return f
+            def wrapped(**kwargs):
+                self.add_listener(rule, f, **kwargs)
+                return f
+            wrapped()
         return decorator
 
     def cron(self, schedule, **options):
