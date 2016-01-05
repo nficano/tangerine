@@ -29,7 +29,7 @@ def quote_of_the_day():
     if not resp.ok:
         return
     quote = resp.json().get('contents', {}).get('quotes', [])[0]
-    gendo.speak('{quote} - {author}'.format(**quote), "#outlandish")
+    gendo.speak('> {quote} - {author}'.format(**quote), "#outlandish")
 
 if __name__ == '__main__':
     gendo.run()
