@@ -29,6 +29,8 @@ class Gendo(object):
     def config_from_yaml(cls, path_to_yaml):
         with open(path_to_yaml, 'r') as ymlfile:
             settings = yaml.load(ymlfile)
+            log.info("settings from {path} loaded successfully".format(
+                     path=path_to_yaml))
             return cls(settings=settings)
 
     def listen_for(self, rule, **options):
@@ -52,6 +54,7 @@ class Gendo(object):
                 try:
                     data = self.client.rtm_read()
                     if data and data[0].get('type') == 'message':
+                        log.debug(data)
                         user = data[0].get('user')
                         message = data[0].get('text')
                         channel = data[0].get('channel')
