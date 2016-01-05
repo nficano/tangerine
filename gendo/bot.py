@@ -1,5 +1,6 @@
-#!/usr/bin/env/python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
+from __future__ import absolute_import
 import json
 import logging
 import datetime
@@ -8,7 +9,7 @@ import sys
 import time
 
 from slackclient import SlackClient
-from scheduler import Task
+from .scheduler import Task
 from . import __version__
 import yaml
 
@@ -22,7 +23,7 @@ class Gendo(object):
         self.scheduled_tasks = []
         self.client = SlackClient(
             slack_token or self.settings.get('gendo', {}).get('auth_token'))
-        self.sleep = 0.5 or self.settings.get('gendo', {}).get('sleep')
+        self.sleep = self.settings.get('gendo', {}).get('sleep') or 0.5
 
     @classmethod
     def config_from_yaml(cls, path_to_yaml):
@@ -95,7 +96,7 @@ class Gendo(object):
                              channel=channel, text=message)
 
     def get_user_info(self, user_id):
-        user = self.client.api_call('users.info', user=user_id)
+        user = self.client.api_call('users.info', user=user_id).decode('utf-8')
         return json.loads(user)
 
     def get_user_name(self, user_id):

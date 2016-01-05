@@ -6,6 +6,10 @@ Gendo for Slack
   :alt: Pypi
   :target: https://pypi.python.org/pypi/gendobot/
 
+.. image:: https://img.shields.io/pypi/dm/gendobot.svg
+  :alt: Pypi downloads per month
+  :target: https://pypi.python.org/pypi/gendobot/
+
 .. image:: https://img.shields.io/pypi/pyversions/gendobot.svg
   :alt: Python Versions
   :target: https://pypi.python.org/pypi/gendobot/
@@ -65,7 +69,7 @@ Installation
 
 .. code:: python
 
-    #!/usr/bin/env/python
+    #!/usr/bin/env python
     # -*- coding: utf-8 -*-
     from gendo import Gendo
     gendo = Gendo("xoxb-1234567890-replace-this-with-token-from-slack")
