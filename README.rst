@@ -32,7 +32,7 @@ Installation
    $ mkdir myslackbot
    $ cd myslackbot
 
-2. Install gendobot from *pypi*.
+2. Install ``gendobot`` from *pypi*.
 
 .. code:: bash
 
