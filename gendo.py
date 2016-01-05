@@ -21,7 +21,7 @@ def morning(user, message):
         return "mornin' @{user.username}"
 
 
-@gendo.cron('*/5 * * * *')
+@gendo.cron('0 15 * * *')
 def quote_of_the_day():
     """Quote of the day"""
     url = 'http://api.theysaidso.com/qod.json'
