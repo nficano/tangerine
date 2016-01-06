@@ -88,7 +88,13 @@ class Gendo(object):
                     if decorator_options.get('target_channel'):
                         channel = self.get_channel_by_name(
                             decorator_options.get('target_channel'))
-                    log.debug('target channel is {}'.format(channel))
+                        log.debug('target channel is {}'.format(channel))
+                    elif decorator_options.get('target_user'):
+                        target_user = self.get_user_by_name(
+                            decorator_options.get('target_user'))
+                        channel = self.get_user_direct_channel(target_user)
+                        log.debug('target direct channel is {}'.format(
+                            channel))
                     self.speak(response, channel)
 
     def add_listener(self, rule, view_func=None, func_args=None,
@@ -100,7 +106,7 @@ class Gendo(object):
 
     def speak(self, message, channel):
         res = self.client.api_call("chat.postMessage", as_user="true:",
-                             channel=channel, text=message)
+                                   channel=channel, text=message)
         log.debug(res.decode('utf-8'))
 
     def get_user_info(self, user_id):
@@ -110,6 +116,23 @@ class Gendo(object):
     def get_user_name(self, user_id):
         user = self.get_user_info(user_id)
         return user.get('user', {}).get('name')
+
+    def get_user_by_name(self, user_name):
+        """ Returns user id by given user name. """
+        members_hash = json.loads(self.client.api_call('users.list').decode(
+            'utf-8'))
+        user_id = [member.get('id') for member in members_hash.get(
+            'members') if member.get('name') == user_name]
+        log.debug('user id is {}'.format(user_id))
+        return user_id[0] if user_id else None
+
+    def get_user_direct_channel(self, user_id):
+        """ Opens (if it wasn't already opened) direct channel with user and
+        returns id of that channel
+        """
+        channel = json.loads(self.client.api_call(
+            'im.open', user=user_id).decode('utf-8'))
+        return channel.get('channel').get('id')
 
     def get_channel_by_name(self, channel_name):
         """ Returns channel id by its name """
