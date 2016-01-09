@@ -1,6 +1,6 @@
-from __future__ import absolute_import
-#!/usr/bin/env/python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
+from __future__ import absolute_import
 import json
 import logging
 import datetime
@@ -53,6 +53,7 @@ class Gendo(object):
                 now = datetime.datetime.now()
                 try:
                     data = self.client.rtm_read()
+                    print(data)
                     if data and data[0].get('type') == 'message':
                         user = data[0].get('user')
                         message = data[0].get('text')
