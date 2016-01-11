@@ -41,8 +41,8 @@ class Gendo(object):
         :raises ValueError: If `supplied_rule` is neither a string nor a
                             callable with the appropriate signature.
         """
-        # If basestring, make a simple match callable
-        if isinstance(supplied_rule, basestring):
+        # If string, make a simple match callable
+        if isinstance(supplied_rule, six.string_types):
             return lambda user, message: supplied_rule in message.lower()
 
         if not six.callable(supplied_rule):
