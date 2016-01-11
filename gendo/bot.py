@@ -1,6 +1,6 @@
-from __future__ import absolute_import
-#!/usr/bin/env/python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
+from __future__ import absolute_import
 import json
 import logging
 import datetime
@@ -96,7 +96,7 @@ class Gendo(object):
                              channel=channel, text=message)
 
     def get_user_info(self, user_id):
-        user = self.client.api_call('users.info', user=user_id)
+        user = self.client.api_call('users.info', user=user_id).decode('utf-8')
         return json.loads(user)
 
     def get_user_name(self, user_id):

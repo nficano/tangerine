@@ -36,7 +36,7 @@ Installation
    $ mkdir myslackbot
    $ cd myslackbot
 
-2. Install gendobot from *pypi*.
+2. Install ``gendobot`` from *pypi*.
 
 .. code:: bash
 
@@ -69,7 +69,7 @@ Installation
 
 .. code:: python
 
-    #!/usr/bin/env/python
+    #!/usr/bin/env python
     # -*- coding: utf-8 -*-
     from gendo import Gendo
     gendo = Gendo("xoxb-1234567890-replace-this-with-token-from-slack")
