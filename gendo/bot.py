@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
+from collections import namedtuple
 import json
 import logging
 import datetime
@@ -11,9 +12,13 @@ import time
 from slackclient import SlackClient
 from .scheduler import Task
 from . import __version__
+import six
 import yaml
 
 log = logging.getLogger(__name__)
+
+
+Listener = namedtuple('Listener', ('rule', 'view_func', 'options'))
 
 
 class Gendo(object):
@@ -86,7 +91,17 @@ class Gendo(object):
                     self.speak(response, channel)
 
     def add_listener(self, rule, view_func, **options):
-        self.listeners.append((rule, view_func, options))
+        """Adds a listener to the listeners container; verifies that
+        `rule` and `view_func` are callable.
+
+        :raises TypeError: if rule is not callable.
+        :raises TypeError: if view_func is not callable
+        """
+        if not six.callable(rule):
+            raise TypeError('rule should be callable')
+        if not six.callable(view_func):
+            raise TypeError('view_func should be callable')
+        self.listeners.append(Listener(rule, view_func, options))
 
     def add_cron(self, schedule, f, **options):
         self.scheduled_tasks.append(Task(schedule, f, **options))
