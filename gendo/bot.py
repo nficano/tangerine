@@ -74,7 +74,7 @@ class Gendo(object):
         if not message:
             return
         elif message == 'gendo version':
-            self.speak("Gendo v{0}".format(__version__))
+            self.speak("Gendo v{0}".format(__version__), channel)
             return
         for phrase, view_func, options in self.listeners:
             if phrase in message.lower():
