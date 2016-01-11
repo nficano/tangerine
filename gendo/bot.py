@@ -85,7 +85,7 @@ class Gendo(object):
                                                     self.get_user_name(user))
                     self.speak(response, channel)
 
-    def add_listener(self, rule, view_func=None, **options):
+    def add_listener(self, rule, view_func, **options):
         self.listeners.append((rule, view_func, options))
 
     def add_cron(self, schedule, f, **options):
