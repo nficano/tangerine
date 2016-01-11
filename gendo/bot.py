@@ -29,8 +29,7 @@ class Gendo(object):
     def config_from_yaml(cls, path_to_yaml):
         with open(path_to_yaml, 'r') as ymlfile:
             settings = yaml.load(ymlfile)
-            log.info("settings from {path} loaded successfully".format(
-                     path=path_to_yaml))
+            log.info("settings from %s loaded successfully", path_to_yaml)
             return cls(settings=settings)
 
     def listen_for(self, rule, **options):
