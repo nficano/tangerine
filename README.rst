@@ -18,6 +18,10 @@ Gendo for Slack
    :alt: Build status
    :target: https://travis-ci.org/nficano/gendo
 
+.. image:: https://coveralls.io/repos/nficano/gendo/badge.svg?branch=master&service=github
+  :alt: Coverage
+  :target: https://coveralls.io/github/nficano/gendo?branch=master
+
 Description
 ===========
 
