@@ -14,7 +14,7 @@ Gendo for Slack
 .. image:: https://travis-ci.org/nficano/gendo.svg?branch=master
   :target: https://travis-ci.org/nficano/gendo
 
-.. image:: https://coveralls.io/repos/nficano/gendo/badge.svg?branch=master&service=github&cb=2432428
+.. image:: https://coveralls.io/repos/nficano/gendo/badge.svg?branch=master&service=github
   :target: https://coveralls.io/github/nficano/gendo?branch=master
 
 Description
