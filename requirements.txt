@@ -7,3 +7,4 @@ websocket-client==0.34.0
 wheel==0.24.0
 crontab==0.20.3
 coveralls==1.0
+pyfieri==1.2.2
