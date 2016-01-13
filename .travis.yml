@@ -6,7 +6,7 @@ python:
   - "3.4"
   - "3.5"
 install: "pip install -r requirements.txt"
-script: nosetests
+script: nosetests --with-coverage
 branches:
   only:
     - master
