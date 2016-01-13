@@ -12,3 +12,5 @@ branches:
     - master
 notifications:
   slack: keepontrucking:ih7fQF17SF3RKTUPlvEdo5Zb
+after_success:
+  coveralls

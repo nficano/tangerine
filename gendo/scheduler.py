@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
 import datetime
+import six
 from crontab import CronTab
 
 
@@ -15,7 +16,7 @@ class Task(object):
     def get_next_run(self, schedule):
         now = datetime.datetime.now()
         entry = CronTab(schedule)
-        delta = datetime.timedelta(0, next(entry))
+        delta = datetime.timedelta(0, six.next(entry))
         return now + delta
 
     def run(self):
