@@ -49,7 +49,7 @@ Installation
     $ touch mybot.py
 
 
-4. Also in your favorite text editor, edit *mybot.py* with the following:
+4. Also in your favourate text editor, edit *mybot.py* with the following:
 
 
 .. code:: python
