@@ -127,7 +127,7 @@ following to the end of your script:
        gendo.run()
 
 
-Crontab (experimental)
+Crontab
 -----------------------
 
 Sometimes you'll run into situations where you want Slack messages to be sent
