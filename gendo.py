@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import os
+from pyfieri.guy_fieri import speak
 from gendo import Gendo
 
 path = os.path.dirname(os.path.abspath(__file__))
@@ -18,6 +19,11 @@ def morning(user, message):
     # make sure message is "morning" and doesn't just contain it.
     if message.strip() == "morning":
         return "mornin' @{user.username}"
+
+
+@gendo.listen_for('appetizers')
+def appetizers(user, message):
+    return speak()
 
 if __name__ == '__main__':
     gendo.run()
