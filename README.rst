@@ -41,29 +41,15 @@ Installation
 
     $ pip install gendobot
 
-3. Make a new file for your bot's config:
 
-.. code:: bash
-
-    $ touch config.yaml
-
-4. In your favorite text editor, edit *config.yaml* with the following:
-
-.. code:: yaml
-
-    gendo:
-      channel: "#general"
-      auth_token: "xoxb-1234567890-replace-this-with-token-from-slack"
-
-
-4. Next make another file for your bot's logic:
+3. Next make another file for your bot's logic:
 
 .. code:: bash
 
     $ touch mybot.py
 
 
-5. Also in your favorite text editor, edit *mybot.py* with the following:
+4. Also in your favorite text editor, edit *mybot.py* with the following:
 
 
 .. code:: python
@@ -82,7 +68,7 @@ Installation
        gendo.run()
 
 
-6. Now try running it, run the following command then say "*morning*" in Slack.
+5. Now try running it, run the following command then say "*morning*" in Slack.
 
 .. code:: bash
 
