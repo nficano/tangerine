@@ -34,8 +34,10 @@ class Gendo(object):
 
     def listen_for(self, rule, **options):
         def decorator(f):
-            self.add_listener(rule, f, **options)
-            return f
+            def wrapped(**kwargs):
+                self.add_listener(rule, f, kwargs, options)
+                return f
+            wrapped()
         return decorator
 
     def cron(self, schedule, **options):
@@ -78,24 +80,30 @@ class Gendo(object):
         elif message == 'gendo version':
             self.speak("Gendo v{0}".format(__version__), channel)
             return
-        for phrase, view_func, options in self.listeners:
+        for phrase, view_func, options, decorator_options in self.listeners:
             if phrase in message.lower():
                 response = view_func(user, message, **options)
                 if response:
                     if '{user.username}' in response:
                         response = response.replace('{user.username}',
                                                     self.get_user_name(user))
+                    if decorator_options.get('target_channel'):
+                        channel = self.get_channel_by_name(
+                            decorator_options.get('target_channel'))
+                    log.debug('target channel is {}'.format(channel))
                     self.speak(response, channel)
 
-    def add_listener(self, rule, view_func=None, **options):
-        self.listeners.append((rule, view_func, options))
+    def add_listener(self, rule, view_func=None, func_args=None,
+                     decorator_options=None):
+        self.listeners.append((rule, view_func, func_args, decorator_options))
 
     def add_cron(self, schedule, f, **options):
         self.scheduled_tasks.append(Task(schedule, f, **options))
 
     def speak(self, message, channel):
-        self.client.api_call("chat.postMessage", as_user="true:",
+        res = self.client.api_call("chat.postMessage", as_user="true:",
                              channel=channel, text=message)
+        log.debug(res.decode('utf-8'))
 
     def get_user_info(self, user_id):
         user = self.client.api_call('users.info', user=user_id).decode('utf-8')
@@ -104,3 +112,8 @@ class Gendo(object):
     def get_user_name(self, user_id):
         user = self.get_user_info(user_id)
         return user.get('user', {}).get('name')
+
+    def get_channel_by_name(self, channel_name):
+        """ Returns channel id by its name """
+        channel = self.client.server.channels.find(channel_name)
+        return channel.id
