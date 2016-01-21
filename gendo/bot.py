@@ -32,10 +32,12 @@ class Gendo(object):
             log.info("settings from %s loaded successfully", path_to_yaml)
             return cls(settings=settings)
 
-    def listen_for(self, rule, **options):
+    def listen_for(self, rule):
         def decorator(f):
-            self.add_listener(rule, f, **options)
-            return f
+            def wrapped(**kwargs):
+                self.add_listener(rule, f, **kwargs)
+                return f
+            return wrapped()
         return decorator
 
     def cron(self, schedule, **options):
