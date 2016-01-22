@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
+from collections import namedtuple
 import json
 import logging
+import inspect
 import datetime
 import os
 import sys
@@ -11,9 +13,13 @@ import time
 from slackclient import SlackClient
 from .scheduler import Task
 from . import __version__
+import six
 import yaml
 
 log = logging.getLogger(__name__)
+
+
+Listener = namedtuple('Listener', ('rule', 'view_func', 'options'))
 
 
 class Gendo(object):
@@ -32,7 +38,38 @@ class Gendo(object):
             log.info("settings from %s loaded successfully", path_to_yaml)
             return cls(settings=settings)
 
+    def _verify_rule(self, supplied_rule):
+        """Rules must be callable with (user, message) in the signature.
+        Strings are automatically converted to callables that match.
+
+        :returns: Callable rule function with user, message as signature.
+        :raises ValueError: If `supplied_rule` is neither a string nor a
+                            callable with the appropriate signature.
+        """
+        # If string, make a simple match callable
+        if isinstance(supplied_rule, six.string_types):
+            return lambda user, message: supplied_rule in message.lower()
+
+        if not six.callable(supplied_rule):
+            raise ValueError('Bot rules must be callable or strings')
+
+        expected = ('user', 'message')
+        signature = tuple(inspect.getargspec(supplied_rule).args)
+        try:
+            # Support class- and instance-methods where first arg is
+            # something like `self` or `cls`.
+            assert len(signature) in (2, 3)
+            assert expected == signature or expected == signature[-2:]
+        except AssertionError:
+            msg = 'Rule signuture must have only 2 arguments: user, message'
+            raise ValueError(msg)
+
+        return supplied_rule
+
     def listen_for(self, rule, **options):
+        """Decorator for adding a Rule. See guidelines for rules.
+        """
+        rule = self._verify_rule(rule)
         def decorator(f):
             self.add_listener(rule, f, **options)
             return f
@@ -78,8 +115,8 @@ class Gendo(object):
         elif message == 'gendo version':
             self.speak("Gendo v{0}".format(__version__), channel)
             return
-        for phrase, view_func, options in self.listeners:
-            if phrase in message.lower():
+        for rule, view_func, options in self.listeners:
+            if rule(user, message):
                 response = view_func(user, message, **options)
                 if response:
                     if '{user.username}' in response:
@@ -87,8 +124,18 @@ class Gendo(object):
                                                     self.get_user_name(user))
                     self.speak(response, channel)
 
-    def add_listener(self, rule, view_func=None, **options):
-        self.listeners.append((rule, view_func, options))
+    def add_listener(self, rule, view_func, **options):
+        """Adds a listener to the listeners container; verifies that
+        `rule` and `view_func` are callable.
+
+        :raises TypeError: if rule is not callable.
+        :raises TypeError: if view_func is not callable
+        """
+        if not six.callable(rule):
+            raise TypeError('rule should be callable')
+        if not six.callable(view_func):
+            raise TypeError('view_func should be callable')
+        self.listeners.append(Listener(rule, view_func, options))
 
     def add_cron(self, schedule, f, **options):
         self.scheduled_tasks.append(Task(schedule, f, **options))
