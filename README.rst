@@ -121,6 +121,7 @@ which is a string of the complete message.
 You can also set more complicated rules with callables, and you can stack them!
 Here's an example.
 
+.. code:: python
 
     def nicks_joke_rule(name, message):
         is_nick = name == 'nficano'
