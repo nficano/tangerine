@@ -113,9 +113,33 @@ which is a string of the complete message.
 
 .. code:: python
 
-   @gendo.listen_for('cookies')
+    @gendo.listen_for('cookies')
     def cookies(user, message):
         # do something when someone say's "cookies" here.
+
+
+You can also set more complicated rules with callables, and you can stack them!
+Here's an example.
+
+
+    def nicks_joke_rule(name, message):
+        is_nick = name == 'nficano'
+        is_telling_a_joke = message.lower().count('knock') == 2
+        return is_nick and is_telling_a_joke
+
+
+    def bens_joke_rule(name, message):
+        is_ben = name == 'johnbenjaminlewis'
+        is_telling_a_joke = message.lower().count('knock') == 2
+
+
+    @gendo.listen_for(nicks_joke_rule)
+    @gendo.listen_for(bens_joke_rule)
+    def another_joke(name, message):
+        if name == 'johnbenjaminlewis':
+            return '@johnbenjaminlewis, nice try. But no.'
+        elif name == 'nficano':
+            return "@here Nick's telling a joke! Who's there?!?"
 
 Finally your script needs to sit inside a loop, monitor whats said in a slack
 channel and respond to the messages accordingly. To do this we add the
