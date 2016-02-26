@@ -32,6 +32,8 @@ def get_posts_in_subreddit(subreddit):
     if not ok:
         yield
     for child in res.get('data', {}).get('children', []):
+        if child['data']['num_comments'] == 0:
+            continue
         permalink = child.get('data', {}).get('permalink')
         url = "https://www.reddit.com{0}.json".format(permalink)
         yield url
