@@ -5,9 +5,6 @@ Gendo for Slack
 .. image:: https://img.shields.io/pypi/v/gendobot.svg
   :target: https://pypi.python.org/pypi/gendobot/
 
-.. image:: https://img.shields.io/pypi/dm/gendobot.svg
-  :target: https://pypi.python.org/pypi/gendobot/
-
 .. image:: https://img.shields.io/pypi/pyversions/gendobot.svg
   :target: https://pypi.python.org/pypi/gendobot/
 
