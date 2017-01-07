@@ -73,4 +73,4 @@ if __name__ == '__main__':
     subreddit = 'mildlyinteresting'
     ok, comment = get_random_comment_in_subreddit(subreddit)
     if ok:
-        print comment
+        print(comment)

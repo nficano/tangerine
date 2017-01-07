@@ -42,4 +42,4 @@ def random_google_image_search(query):
 
 
 if __name__ == "__main__":
-    print random_google_image_search("nick ficano")
+    print(random_google_image_search("nick ficano"))
