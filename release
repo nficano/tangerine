@@ -15,11 +15,13 @@ fi
 
 echo -e "\n${GREEN}STARTING RELEASE PROCESS${COLOR_OFF}\n"
 
-git status | grep "working directory clean" &> /dev/null
+git status | grep "working tree clean" &> /dev/null
 if [ ! $? -eq 0 ]; then # working directory is NOT clean
     echo -e "${RED}WARNING: You have uncomitted changes, you may have forgotten something${COLOR_OFF}\n"
     exit
 fi
+
+make clean
 
 echo -e "${YELLOW}--->${COLOR_OFF} Updating local copy"
 git pull -q origin master
@@ -79,7 +81,8 @@ git push -q origin master && git push -q --tags
 
 echo -e "${YELLOW}--->${COLOR_OFF} Creating python release"
 cp README.rst README
-python setup.py sdist upload > /dev/null
+python setup.py bdist_wheel
+twine upload dist/*
 rm README
 
 echo -e "\n${CYAN}RELEASED VERSION ${next_version}!${COLOR_OFF}\n"

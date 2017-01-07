@@ -1,6 +1,6 @@
 clean:
-	@find . -type f -name "*.py[c|o]" -exec rm -f {} \;
-	@find . -type d -name "*gendo.egg-info" -exec rm -rf {} \;
-	@find . -type d -name "*gendobot.egg-info" -exec rm -rf {} \;
-	@find . -type d -name "*dist" -exec rm -rf {} \;
-	@find . -type d -name "*build" -exec rm -rf {} \;
+	rm -fr build/
+	rm -fr dist/
+	rm -fr .eggs/
+	find . -name '*.egg-info' -exec rm -fr {} +
+	find . -name '*.egg' -exec rm -f {} +
