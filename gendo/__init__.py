@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # flake8: noqa
 __title__ = 'gendo'
-__version__ = '2.4.0'
+__version__ = '2.4.1'
 __author__ = 'Nick Ficano'
 __license__ = 'MIT License'
 __copyright__ = 'Copyright 2017 Nick Ficano'
