@@ -1,7 +1,4 @@
 PyYAML==3.11
 six==1.10.0
 slackclient==0.16
-websocket-client==0.34.0
-wheel==0.24.0
 crontab==0.20.3
-pyfieri==1.2.2
