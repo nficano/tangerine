@@ -6,11 +6,11 @@ try:
     from itertools import ifilter
 except:
     ifilter = filter
-from os import path
-from ast import parse
 import pip
-requirements = pip.req.parse_requirements("requirements.txt",
-                                          session=pip.download.PipSession())
+requirements = pip.req.parse_requirements(
+    "requirements.txt",
+    session=pip.download.PipSession()
+)
 
 pip_requirements = [str(r.req) for r in requirements]
 
@@ -20,15 +20,11 @@ with open('README.rst') as readme_file:
 with open('LICENSE.txt') as readme_file:
     license = readme_file.read()
 
-with open(path.join('gendo', '__init__.py')) as f:
-    __version__ = parse(next(ifilter(
-        lambda line: line.startswith('__version__'), f))).body[0].value.s
-
 setup(
     name='gendobot',
     author='Nick Ficano',
     author_email='nficano@gmail.com',
-    version=__version__,
+    version='2.2.3',
     packages=find_packages(exclude=['tests*']),
     url='http://nickficano.com',
     description="a lightweight Slackbot framework for Python",
