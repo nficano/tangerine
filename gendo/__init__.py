@@ -5,7 +5,7 @@ __title__ = 'gendo'
 __version__ = '2.2.3'
 __author__ = 'Nick Ficano'
 __license__ = 'MIT License'
-__copyright__ = 'Copyright 2015 Nick Ficano'
+__copyright__ = 'Copyright 2017 Nick Ficano'
 
 from .bot import Gendo
 
