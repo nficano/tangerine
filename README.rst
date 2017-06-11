@@ -150,7 +150,7 @@ following to the end of your script:
 
 
 Crontab
------------------------
+=======
 
 Sometimes you'll run into situations where you want Slack messages to be sent
 periodically rather than in direct response to a keyword, for this Gendo ships
@@ -168,3 +168,25 @@ minutes, simply add the following to your *mybot.py* file:
 
 See https://en.wikipedia.org/wiki/Cron#Configuration_file for more details on
 crontab syntax.
+
+Development
+===========
+
+Development of this happens on GitHub, patches including tests, documentation are very welcome, as well as bug reports and feature contributions are welcome! Also please open an issue if this tool does not function as you'd expect.
+
+How to release updates
+----------------------
+
+If this is the first time you're releasing to pypi, you'll need to run: ``pip install -r tests/dev_requirements.txt``.
+
+Once complete, execute the following commands:
+
+.. code:: bash
+
+   $ git checkout master
+   $ bumpversion [major|minor|patch]
+   $
+   $ python setup.py sdist bdist_wheel upload
+   $
+   $ bumpversion --no-tag patch
+   $ git push origin master --tags
