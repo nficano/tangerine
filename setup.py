@@ -17,7 +17,7 @@ pip_requirements = [str(r.req) for r in requirements]
 with open('README.rst') as readme_file:
     readme = readme_file.read()
 
-with open('LICENSE.txt') as readme_file:
+with open('LICENSE') as readme_file:
     license = readme_file.read()
 
 setup(
