@@ -13,7 +13,6 @@ import time
 from slackclient import SlackClient
 from box import Box
 from .scheduler import Task
-from . import __version__
 import six
 import yaml
 
