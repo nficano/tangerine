@@ -158,7 +158,7 @@ class Gendo(object):
                              channel=channel, text=message)
 
     def get_user_info(self, user_id):
-        user = self.client.api_call('users.info', user=user_id).decode('utf-8')
+        user = self.client.api_call('users.info', user=user_id)
         return json.loads(user)
 
     def get_user_name(self, user_id):
