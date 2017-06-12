@@ -11,6 +11,7 @@ import sys
 import time
 
 from slackclient import SlackClient
+from box import Box
 from .scheduler import Task
 from . import __version__
 import six
@@ -18,18 +19,21 @@ import yaml
 
 log = logging.getLogger(__name__)
 
-
 Listener = namedtuple('Listener', ('rule', 'view_func', 'options'))
 
 
 class Gendo(object):
     def __init__(self, slack_token=None, settings=None):
-        self.settings = settings or {}
+        settings = settings or {}
+        settings.setdefault('gendo', {})
+        settings['gendo'].setdefault('sleep', 0.5)
+        self.settings = Box(settings, frozen_box=True, default_box=True)
         self.listeners = []
         self.scheduled_tasks = []
+
         self.client = SlackClient(
-            slack_token or self.settings.get('gendo', {}).get('auth_token'))
-        self.sleep = self.settings.get('gendo', {}).get('sleep') or 0.5
+            slack_token or self.settings.gendo.auth_token)
+        self.sleep = self.settings.gendo.sleep
 
     @classmethod
     def config_from_yaml(cls, path_to_yaml):
@@ -70,9 +74,11 @@ class Gendo(object):
         """Decorator for adding a Rule. See guidelines for rules.
         """
         rule = self._verify_rule(rule)
+
         def decorator(f):
             self.add_listener(rule, f, **options)
             return f
+
         return decorator
 
     def cron(self, schedule, **options):
@@ -82,38 +88,46 @@ class Gendo(object):
         return decorator
 
     def run(self):
-        running = True
+        self.running = True
         if self.client.rtm_connect():
-            while running:
-                time.sleep(self.sleep)
-                now = datetime.datetime.now()
-                try:
-                    data = self.client.rtm_read()
-                    if data and data[0].get('type') == 'message':
-                        log.debug(data)
-                        user = data[0].get('user')
-                        message = data[0].get('text')
-                        channel = data[0].get('channel')
-                        self.respond(user, message, channel)
-
-                    for idx, task in enumerate(self.scheduled_tasks):
-                        if now > task.next_run:
-                            t = self.scheduled_tasks.pop(idx)
-                            t.run()
-                            self.add_cron(t.schedule, t.fn, **t.options)
-                except (KeyboardInterrupt, SystemExit):
-                    log.info("attempting graceful shutdown...")
-                    running = False
+            try:
+                self.event_loop()
+            except (KeyboardInterrupt, SystemExit):
+                log.info("attempting graceful shutdown...")
+                self.running = False
         try:
             sys.exit(0)
         except SystemExit:
             os._exit(0)
 
+    def event_loop(self):
+        while self.running:
+            time.sleep(self.sleep)
+            self.process_stream()
+            self.process_scheduled_tasks()
+
+    def read_stream(self):
+        data = self.client.rtm_read()
+        if not data:
+            return data
+        return [Box(d) for d in data][0]
+
+    def process_stream(self):
+        data = self.read_stream()
+        if not data or data.type != 'message':
+            return
+        self.respond(data.user, data.text, data.channel)
+
+    def process_scheduled_tasks(self):
+        now = datetime.datetime.now()
+        for idx, task in enumerate(self.scheduled_tasks):
+            if now > task.next_run:
+                t = self.scheduled_tasks.pop(idx)
+                t.run()
+                self.add_cron(t.schedule, t.fn, **t.options)
+
     def respond(self, user, message, channel):
         if not message:
-            return
-        elif message == 'gendo version':
-            self.speak("Gendo v{0}".format(__version__), channel)
             return
         for rule, view_func, options in self.listeners:
             if rule(user, message):

@@ -6,6 +6,7 @@
 # Packages
 *.egg
 *.egg-info
+config.yml
 dist
 build
 eggs
@@ -50,3 +51,4 @@ htmlcov/
 config.yaml
 gendobot.conf
 .coveralls.yml
+devbot.py
