@@ -113,7 +113,7 @@ class Gendo(object):
 
     def process_stream(self):
         data = self.read_stream()
-        if not data or data.type != 'message':
+        if not data or data.type != 'message' or 'user' not in data:
             return
         self.respond(data.user, data.text, data.channel)
 
@@ -126,12 +126,22 @@ class Gendo(object):
                 self.add_cron(t.schedule, t.fn, **t.options)
 
     def respond(self, user, message, channel):
+        sendable = {'user': user, 'message': message, 'channel': channel}
         if not message:
             return
         for rule, view_func, options in self.listeners:
             if rule(user, message):
-                response = view_func(user, message, **options)
+                args = inspect.getargspec(view_func).args
+                kwargs = {k: v for k, v in sendable.items() if k in args}
+                response = view_func(**kwargs)
                 if response:
+                    if 'hide_typing' not in options:
+                        time.sleep(1)
+                        self.client.server.send_to_websocket({
+                            'type': 'typing',
+                            'channel': channel
+                        })
+                        time.sleep(1)
                     if '{user.username}' in response:
                         response = response.replace('{user.username}',
                                                     self.get_user_name(user))
