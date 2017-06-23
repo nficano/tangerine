@@ -136,12 +136,12 @@ class Gendo(object):
                 response = view_func(**kwargs)
                 if response:
                     if 'hide_typing' not in options:
-                        time.sleep(1)
+                        time.sleep(.2)
                         self.client.server.send_to_websocket({
                             'type': 'typing',
                             'channel': channel
                         })
-                        time.sleep(1)
+                        time.sleep(.5)
                     if '{user.username}' in response:
                         response = response.replace('{user.username}',
                                                     self.get_user_name(user))
