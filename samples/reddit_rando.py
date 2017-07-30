@@ -22,8 +22,9 @@
     if __name__ == '__main__':
         gendo.run()
 """
-import requests
 import random
+
+import requests
 
 
 def get_posts_in_subreddit(subreddit):
@@ -35,7 +36,7 @@ def get_posts_in_subreddit(subreddit):
         if child['data']['num_comments'] == 0:
             continue
         permalink = child.get('data', {}).get('permalink')
-        url = "https://www.reddit.com{0}.json".format(permalink)
+        url = 'https://www.reddit.com{0}.json'.format(permalink)
         yield url
 
 
@@ -52,7 +53,7 @@ def get_comments_in_post(url):
 def get_random_comment_in_subreddit(subreddit):
     urls = [url for url in get_posts_in_subreddit(subreddit)]
     if not urls:
-        return False, "no posts."
+        return False, 'no posts.'
     url = random.choice(urls)
     comments = [c for c in get_comments_in_post(url)]
     if not comments:

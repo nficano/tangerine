@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import os
+
 from gendo import Gendo
 
 path = os.path.dirname(os.path.abspath(__file__))
@@ -10,13 +11,13 @@ gendo = Gendo.config_from_yaml(path_to_yaml)
 
 @gendo.listen_for('cookies')
 def cookies(user, message):
-    return "I *LOVE* COOOOOOOOKIES!!!!"
+    return 'I *LOVE* COOOOOOOOKIES!!!!'
 
 
 @gendo.listen_for('morning')
 def morning(user, message):
     # make sure message is "morning" and doesn't just contain it.
-    if message.strip() == "morning":
+    if message.strip() == 'morning':
         return "mornin' @{user.username}"
 
 

@@ -18,12 +18,13 @@
     if __name__ == '__main__':
         gendo.run()
 """
-import requests
 import random
 
-URL = "https://www.googleapis.com/customsearch/v1"
-CSE_KEY = ""
-CSE_ID = ""
+import requests
+
+URL = 'https://www.googleapis.com/customsearch/v1'
+CSE_KEY = ''
+CSE_ID = ''
 
 
 def google_image_search(query):
@@ -41,5 +42,5 @@ def random_google_image_search(query):
         return random.choice([r for r in google_image_search(query)])
 
 
-if __name__ == "__main__":
-    print(random_google_image_search("nick ficano"))
+if __name__ == '__main__':
+    print(random_google_image_search('nick ficano'))
