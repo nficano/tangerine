@@ -52,3 +52,4 @@ config.yaml
 gendobot.conf
 .coveralls.yml
 devbot.py
+templates/
