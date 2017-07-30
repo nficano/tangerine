@@ -1,20 +1,22 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
-from collections import namedtuple
-import json
-import logging
-import inspect
 import datetime
+import inspect
+import logging
 import os
 import sys
 import time
+from collections import namedtuple
 
-from slackclient import SlackClient
-from box import Box
-from .scheduler import Task
 import six
 import yaml
+from box import Box
+from jinja2 import Environment
+from jinja2 import FileSystemLoader
+from jinja2 import select_autoescape
+from slackclient import SlackClient
+
+from .scheduler import Task
 
 log = logging.getLogger(__name__)
 
@@ -22,23 +24,28 @@ Listener = namedtuple('Listener', ('rule', 'view_func', 'options'))
 
 
 class Gendo(object):
+    jinja_environment = Environment
+
     def __init__(self, slack_token=None, settings=None):
         settings = settings or {}
         settings.setdefault('gendo', {})
         settings['gendo'].setdefault('sleep', 0.5)
+        settings['gendo'].setdefault('template_folder', 'templates')
+
         self.settings = Box(settings, frozen_box=True, default_box=True)
         self.listeners = []
         self.scheduled_tasks = []
 
         self.client = SlackClient(
-            slack_token or self.settings.gendo.auth_token)
+            slack_token or self.settings.gendo.auth_token
+        )
         self.sleep = self.settings.gendo.sleep
 
     @classmethod
     def config_from_yaml(cls, path_to_yaml):
         with open(path_to_yaml, 'r') as ymlfile:
             settings = yaml.load(ymlfile)
-            log.info("settings from %s loaded successfully", path_to_yaml)
+            log.info('settings from %s loaded successfully', path_to_yaml)
             return cls(settings=settings)
 
     def _verify_rule(self, supplied_rule):
@@ -92,7 +99,7 @@ class Gendo(object):
             try:
                 self.event_loop()
             except (KeyboardInterrupt, SystemExit):
-                log.info("attempting graceful shutdown...")
+                log.info('attempting graceful shutdown...')
                 self.running = False
         try:
             sys.exit(0)
@@ -126,7 +133,11 @@ class Gendo(object):
                 self.add_cron(t.schedule, t.fn, **t.options)
 
     def respond(self, user, message, channel):
-        sendable = {'user': user, 'message': message, 'channel': channel}
+        sendable = {
+            'user': user,
+            'message': message,
+            'channel': channel
+        }
         if not message:
             return
         for rule, view_func, options in self.listeners:
@@ -136,6 +147,7 @@ class Gendo(object):
                 response = view_func(**kwargs)
                 if response:
                     if 'hide_typing' not in options:
+                        # TODO(nficano): this should be configurable
                         time.sleep(.2)
                         self.client.server.send_to_websocket({
                             'type': 'typing',
@@ -164,7 +176,7 @@ class Gendo(object):
         self.scheduled_tasks.append(Task(schedule, f, **options))
 
     def speak(self, message, channel):
-        self.client.api_call("chat.postMessage", as_user="true:",
+        self.client.api_call('chat.postMessage', as_user='true:',
                              channel=channel, text=message)
 
     def get_user_info(self, user_id):
@@ -173,3 +185,23 @@ class Gendo(object):
     def get_user_name(self, user_id):
         user = self.get_user_info(user_id)
         return user.get('user', {}).get('name')
+
+    def get_template_path(self):
+        if os.path.isabs(self.settings.gendo.template_folder):
+            return self.settings.gendo.template_folder
+        else:
+            return os.path.join(
+                os.getcwd(),
+                self.settings.gendo.template_folder
+            )
+
+    def get_jinja_environment(self):
+        return self.jinja_environment(
+            loader=FileSystemLoader(self.get_template_path()),
+            autoescape=select_autoescape(['txt'])
+        )
+
+    def render_template(self, template_name, **context):
+        env = self.get_jinja_environment()
+        template = env.get_template(template_name)
+        return template.render(**context)
