@@ -172,7 +172,7 @@ crontab syntax.
 Development
 ===========
 
-Development of "python-lambda" is facilitated exclusively on GitHub. Contributions in the form of patches, tests and feature creation and/or requests are very welcome and highly encouraged. Please open an issue if this tool does not function as you'd expect.
+Development of "gendo" is facilitated exclusively on GitHub. Contributions in the form of patches, tests and feature creation and/or requests are very welcome and highly encouraged. Please open an issue if this tool does not function as you'd expect.
 
 
 How to release updates
