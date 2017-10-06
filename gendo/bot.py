@@ -20,7 +20,12 @@ from .scheduler import Task
 
 log = logging.getLogger(__name__)
 
-Listener = namedtuple('Listener', ('rule', 'view_func', 'options'))
+Listener = namedtuple('Listener', (
+    'rule',
+    'view_func',
+    'trigger',
+    'doc',
+    'options'))
 
 
 class Gendo(object):
@@ -79,10 +84,13 @@ class Gendo(object):
     def listen_for(self, rule, **options):
         """Decorator for adding a Rule. See guidelines for rules.
         """
+        trigger = None
+        if isinstance(rule, six.string_types):
+            trigger = rule
         rule = self._verify_rule(rule)
 
         def decorator(f):
-            self.add_listener(rule, f, **options)
+            self.add_listener(rule, f, trigger, f.__doc__, **options)
             return f
 
         return decorator
@@ -176,7 +184,7 @@ class Gendo(object):
         self.scheduled_tasks.append(Task(schedule, f, **options))
 
     def speak(self, message, channel):
-        self.client.api_call('chat.postMessage', as_user='true:',
+        self.client.api_call('chat.postMessage', as_user=True,
                              channel=channel, text=message)
 
     def get_user_info(self, user_id):
@@ -185,6 +193,40 @@ class Gendo(object):
     def get_user_name(self, user_id):
         user = self.get_user_info(user_id)
         return user.get('user', {}).get('name')
+
+    def get_user_id_from_username(self, username):
+        for m in self.client.api_call('users.list')['members']:
+            if username.lower() == m.get('name', '').lower():
+                return m['id']
+
+    def get_channel_id_from_name(self, channel):
+        channel = channel.lower().replace('#', '')
+        types = ','.join(['public_channel', 'private_channel'])
+
+        response = self.client.api_call(
+            'conversations.list', types=types, limit=1000)
+        for c in response['channels']:
+            if channel == c['name'].lower():
+                return c['id']
+
+        response = self.client.api_call('channels.list', limit=1000)
+        for c in response['channels']:
+            if channel == c['name'].lower():
+                return c['id']
+
+    def get_channel_name_from_channel_id(self, channel_id):
+        types = ','.join(['public_channel', 'private_channel'])
+
+        response = self.client.api_call(
+            'conversations.list', types=types, limit=1000)
+        for c in response['channels']:
+            if channel_id == c['id']:
+                return c['name']
+
+        response = self.client.api_call('channels.list', limit=1000)
+        for c in response['channels']:
+            if channel_id == c['id']:
+                return c['name']
 
     def get_template_path(self):
         if os.path.isabs(self.settings.gendo.template_folder):
