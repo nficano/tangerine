@@ -185,9 +185,9 @@ class Gendo(object):
     def add_cron(self, schedule, f, **options):
         self.scheduled_tasks.append(Task(schedule, f, **options))
 
-    def speak(self, message, channel):
+    def speak(self, message, channel, **kwargs):
         self.client.api_call('chat.postMessage', as_user=True,
-                             channel=channel, text=message)
+                             channel=channel, text=message, **kwargs)
 
     def get_user_info(self, user_id):
         return self.client.api_call('users.info', user=user_id)
