@@ -148,7 +148,7 @@ class Gendo(object):
         }
         if not message:
             return
-        for rule, view_func, options in self.listeners:
+        for rule, view_func, _, _, options in self.listeners:
             if rule(user, message):
                 args = inspect.getargspec(view_func).args
                 kwargs = {k: v for k, v in sendable.items() if k in args}
