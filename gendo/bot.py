@@ -167,7 +167,7 @@ class Gendo(object):
                                                     self.get_user_name(user))
                     self.speak(response, channel)
 
-    def add_listener(self, rule, view_func, **options):
+    def add_listener(self, rule, view_func, trigger, docs, **options):
         """Adds a listener to the listeners container; verifies that
         `rule` and `view_func` are callable.
 
@@ -178,7 +178,9 @@ class Gendo(object):
             raise TypeError('rule should be callable')
         if not six.callable(view_func):
             raise TypeError('view_func should be callable')
-        self.listeners.append(Listener(rule, view_func, options))
+        self.listeners.append(
+            Listener(rule, view_func, trigger, docs, options)
+        )
 
     def add_cron(self, schedule, f, **options):
         self.scheduled_tasks.append(Task(schedule, f, **options))
