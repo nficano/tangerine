@@ -26,7 +26,7 @@ setup(
     name='gendobot',
     author='Nick Ficano',
     author_email='nficano@gmail.com',
-    version='4.1.1',
+    version='4.1.2',
     packages=find_packages(exclude=['tests*']),
     url='http://nickficano.com',
     description='a lightweight Slackbot framework for Python',
