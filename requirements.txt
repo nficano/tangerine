@@ -1,5 +1,0 @@
-crontab==0.21.3
-jinja2==2.9.6
-python-box==3.0.1
-pyyaml==3.12
-slackclient==1.0.6

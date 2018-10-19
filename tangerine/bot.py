@@ -25,7 +25,9 @@ Listener = namedtuple('Listener', (
     'view_func',
     'trigger',
     'doc',
-    'options'))
+    'options'
+    )
+)
 
 
 class Tangerine(object):
@@ -56,10 +58,6 @@ class Tangerine(object):
     def _verify_rule(self, supplied_rule):
         """Rules must be callable with (user, message) in the signature.
         Strings are automatically converted to callables that match.
-
-        :returns: Callable rule function with user, message as signature.
-        :raises ValueError: If `supplied_rule` is neither a string nor a
-                            callable with the appropriate signature.
         """
         # If string, make a simple match callable
         if isinstance(supplied_rule, six.string_types):
@@ -82,8 +80,7 @@ class Tangerine(object):
         return supplied_rule
 
     def listen_for(self, rule, **options):
-        """Decorator for adding a Rule. See guidelines for rules.
-        """
+        """Decorator for adding a Rule. See guidelines for rules."""
         trigger = None
         if isinstance(rule, six.string_types):
             trigger = rule
@@ -170,9 +167,6 @@ class Tangerine(object):
     def add_listener(self, rule, view_func, trigger, docs, **options):
         """Adds a listener to the listeners container; verifies that
         `rule` and `view_func` are callable.
-
-        :raises TypeError: if rule is not callable.
-        :raises TypeError: if view_func is not callable
         """
         if not six.callable(rule):
             raise TypeError('rule should be callable')

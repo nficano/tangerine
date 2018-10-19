@@ -1,0 +1,16 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+crontab = "*"
+"jinja2" = "*"
+python-box = "*"
+pyyaml = "*"
+slackclient = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.7"
