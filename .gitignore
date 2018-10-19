@@ -49,7 +49,7 @@ htmlcov/
 .envs
 
 config.yaml
-gendobot.conf
+tangerinebot.conf
 .coveralls.yml
 devbot.py
 templates/

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-gendo.utils
+tangerine.utils
 ------------------
 
-Helper functions used throughout Gendo.
+Helper functions used throughout Tangerine.
 """

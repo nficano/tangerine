@@ -7,11 +7,11 @@
     # Sample usage:
 
     import reddit_rando as reddit
-    from gendo import Gendo
+    from tangerine import Tangerine
 
-    gendo = Gendo('xoxb-your-key-here')
+    tangerine = Tangerine('xoxb-your-key-here')
 
-    @gendo.listen_for('rando comment')
+    @tangerine.listen_for('rando comment')
     def rando(user, message):
         subreddit = message.replace('rando comment', '').strip()
         ok, comment = reddit.get_random_comment_in_subreddit(subreddit)
@@ -20,7 +20,7 @@
         return comment
 
     if __name__ == '__main__':
-        gendo.run()
+        tangerine.run()
 """
 import random
 

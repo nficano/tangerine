@@ -5,18 +5,18 @@
     image me -- ask me for an image of anything
 
     # Sample usage:
-    from gendo import Gendo
+    from tangerine import Tangerine
     import image_me as google
 
-    gendo = Gendo('xoxb-your-key-here')
+    tangerine = Tangerine('xoxb-your-key-here')
 
-    @gendo.listen_for('image me')
+    @tangerine.listen_for('image me')
     def image_me(user, message):
         query = message.replace('image me', '')
         return google.random_google_image_search(query)
 
     if __name__ == '__main__':
-        gendo.run()
+        tangerine.run()
 """
 import random
 

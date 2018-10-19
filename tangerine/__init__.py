@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # flake8: noqa
-__title__ = 'gendo'
+__title__ = 'tangerine'
 __version__ = '4.1.5'
 __author__ = 'Nick Ficano'
 __license__ = 'MIT License'
 __copyright__ = 'Copyright 2017 Nick Ficano'
 
-from .bot import Gendo
+from .bot import Tangerine
 
 
 # Set default logging handler to avoid "No handler found" warnings.

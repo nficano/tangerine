@@ -1,6 +1,6 @@
 import mock
 
-from gendo import Gendo
+from tangerine import Tangerine
 
 TEST_TEXT = ':muffpunch:'
 TEST_TOKEN = '111'
@@ -8,16 +8,16 @@ TEST_CHANNEL = 'tests'
 
 
 class TestSpeak(object):
-    @mock.patch('gendo.bot.Gendo.speak')
+    @mock.patch('tangerine.bot.Tangerine.speak')
     def test_speak(self, mock_speak):
-        gendo = Gendo(TEST_TOKEN)
-        gendo.speak(TEST_TEXT, TEST_CHANNEL)
+        tangerine = Tangerine(TEST_TOKEN)
+        tangerine.speak(TEST_TEXT, TEST_CHANNEL)
         mock_speak.assert_called_with(TEST_TEXT, TEST_CHANNEL)
 
-    @mock.patch('gendo.bot.SlackClient.api_call')
+    @mock.patch('tangerine.bot.SlackClient.api_call')
     def test_slack_call(self, mock_call):
-        gendo = Gendo(TEST_TOKEN)
-        gendo.speak(TEST_TEXT, TEST_CHANNEL)
+        tangerine = Tangerine(TEST_TOKEN)
+        tangerine.speak(TEST_TEXT, TEST_CHANNEL)
         mock_call.assert_called_with(
           'chat.postMessage',
           as_user='true:',

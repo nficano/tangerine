@@ -1,23 +1,23 @@
 ===============
-Gendo for Slack
+Tangerine for Slack
 ===============
 
-.. image:: https://img.shields.io/pypi/v/gendobot.svg
-  :target: https://pypi.python.org/pypi/gendobot/
+.. image:: https://img.shields.io/pypi/v/tangerinebot.svg
+  :target: https://pypi.python.org/pypi/tangerinebot/
 
-.. image:: https://img.shields.io/pypi/pyversions/gendobot.svg
-  :target: https://pypi.python.org/pypi/gendobot/
+.. image:: https://img.shields.io/pypi/pyversions/tangerinebot.svg
+  :target: https://pypi.python.org/pypi/tangerinebot/
 
-.. image:: https://travis-ci.org/nficano/gendo.svg?branch=master
-  :target: https://travis-ci.org/nficano/gendo
+.. image:: https://travis-ci.org/nficano/tangerine.svg?branch=master
+  :target: https://travis-ci.org/nficano/tangerine
 
-.. image:: https://coveralls.io/repos/nficano/gendo/badge.svg?branch=master&service=github&cb=321
-  :target: https://coveralls.io/github/nficano/gendo?branch=master
+.. image:: https://coveralls.io/repos/nficano/tangerine/badge.svg?branch=master&service=github&cb=321
+  :target: https://coveralls.io/github/nficano/tangerine?branch=master
 
 Description
 ===========
 
-Gendo is a lightweight Slackbot framework that abstracts away all the
+Tangerine is a lightweight Slackbot framework that abstracts away all the
 boilerplate code required to write bots, allowing you to focus on the problem
 at hand.
 
@@ -32,11 +32,11 @@ Installation
    $ mkdir myslackbot
    $ cd myslackbot
 
-2. Install ``gendobot`` from *pypi*.
+2. Install ``tangerinebot`` from *pypi*.
 
 .. code:: bash
 
-    $ pip install gendobot
+    $ pip install tangerinebot
 
 
 3. Next make another file for your bot's logic:
@@ -53,16 +53,16 @@ Installation
 
     #!/usr/bin/env python
     # -*- coding: utf-8 -*-
-    from gendo import Gendo
-    gendo = Gendo("xoxb-1234567890-replace-this-with-token-from-slack")
+    from tangerine import Tangerine
+    tangerine = Tangerine("xoxb-1234567890-replace-this-with-token-from-slack")
 
 
-    @gendo.listen_for('morning')
+    @tangerine.listen_for('morning')
     def morning(user, message):
         return "mornin' @{user.username}"
 
     if __name__ == '__main__':
-       gendo.run()
+       tangerine.run()
 
 
 5. Now try running it, run the following command then say "*morning*" in Slack.
@@ -75,10 +75,10 @@ Installation
 Basic Usage
 ===========
 
-To start your project, you'll first need to import gendo by adding
-``from gendo import Gendo`` to the top of your file.
+To start your project, you'll first need to import tangerine by adding
+``from tangerine import Tangerine`` to the top of your file.
 
-Next you'll need to create an instance of Gendo and configure your Slack token.
+Next you'll need to create an instance of Tangerine and configure your Slack token.
 This can be done using a yaml config file or passing it explicitly to the
 initialization.
 
@@ -86,17 +86,17 @@ initialization.
 
     # Option 1: YAML config:
     import os
-    from gendo import Gendo
+    from tangerine import Tangerine
 
     path = os.path.dirname(os.path.abspath(__file__))
     path_to_yaml = os.path.join(path, 'config.yaml')
-    gendo = Gendo.config_from_yaml(path_to_yaml)
+    tangerine = Tangerine.config_from_yaml(path_to_yaml)
 
 .. code:: python
 
     # Option 2: Hardcoded slack token
-    from gendo import Gendo
-    gendo = Gendo("xoxb-1234567890-replace-this-with-token-from-slack")
+    from tangerine import Tangerine
+    tangerine = Tangerine("xoxb-1234567890-replace-this-with-token-from-slack")
 
 Now its time to write your ``response`` functions, these functions get wrapped
 with the ``listen_for`` decorator, which registers a pattern to watch the slack
@@ -110,7 +110,7 @@ which is a string of the complete message.
 
 .. code:: python
 
-    @gendo.listen_for('cookies')
+    @tangerine.listen_for('cookies')
     def cookies(user, message):
         # do something when someone say's "cookies" here.
 
@@ -131,8 +131,8 @@ Here's an example.
         is_telling_a_joke = message.lower().count('knock') == 2
 
 
-    @gendo.listen_for(nicks_joke_rule)
-    @gendo.listen_for(bens_joke_rule)
+    @tangerine.listen_for(nicks_joke_rule)
+    @tangerine.listen_for(bens_joke_rule)
     def another_joke(name, message):
         if name == 'johnbenjaminlewis':
             return '@johnbenjaminlewis, nice try. But no.'
@@ -146,14 +146,14 @@ following to the end of your script:
 .. code:: python
 
     if __name__ == '__main__':
-       gendo.run()
+       tangerine.run()
 
 
 Crontab
 =======
 
 Sometimes you'll run into situations where you want Slack messages to be sent
-periodically rather than in direct response to a keyword, for this Gendo ships
+periodically rather than in direct response to a keyword, for this Tangerine ships
 with a single-threaded Python implementation of Cron.
 
 Let's pretend we want to send a message to everyone in a channel every five
@@ -161,9 +161,9 @@ minutes, simply add the following to your *mybot.py* file:
 
 .. code:: python
 
-    @gendo.cron('*/5 * * * *')
+    @tangerine.cron('*/5 * * * *')
     def some_task():
-        gendo.speak("Hay Ride!", "#general")
+        tangerine.speak("Hay Ride!", "#general")
 
 
 See https://en.wikipedia.org/wiki/Cron#Configuration_file for more details on
@@ -172,7 +172,7 @@ crontab syntax.
 Development
 ===========
 
-Development of "gendo" is facilitated exclusively on GitHub. Contributions in the form of patches, tests and feature creation and/or requests are very welcome and highly encouraged. Please open an issue if this tool does not function as you'd expect.
+Development of "tangerine" is facilitated exclusively on GitHub. Contributions in the form of patches, tests and feature creation and/or requests are very welcome and highly encouraged. Please open an issue if this tool does not function as you'd expect.
 
 
 How to release updates

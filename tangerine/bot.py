@@ -28,23 +28,23 @@ Listener = namedtuple('Listener', (
     'options'))
 
 
-class Gendo(object):
+class Tangerine(object):
     jinja_environment = Environment
 
     def __init__(self, slack_token=None, settings=None):
         settings = settings or {}
-        settings.setdefault('gendo', {})
-        settings['gendo'].setdefault('sleep', 0.5)
-        settings['gendo'].setdefault('template_folder', 'templates')
+        settings.setdefault('tangerine', {})
+        settings['tangerine'].setdefault('sleep', 0.5)
+        settings['tangerine'].setdefault('template_folder', 'templates')
 
         self.settings = Box(settings, frozen_box=True, default_box=True)
         self.listeners = []
         self.scheduled_tasks = []
 
         self.client = SlackClient(
-            slack_token or self.settings.gendo.auth_token
+            slack_token or self.settings.tangerine.auth_token
         )
-        self.sleep = self.settings.gendo.sleep
+        self.sleep = self.settings.tangerine.sleep
 
     @classmethod
     def config_from_yaml(cls, path_to_yaml):
@@ -231,12 +231,12 @@ class Gendo(object):
                 return c['name']
 
     def get_template_path(self):
-        if os.path.isabs(self.settings.gendo.template_folder):
-            return self.settings.gendo.template_folder
+        if os.path.isabs(self.settings.tangerine.template_folder):
+            return self.settings.tangerine.template_folder
         else:
             return os.path.join(
                 os.getcwd(),
-                self.settings.gendo.template_folder
+                self.settings.tangerine.template_folder
             )
 
     def get_jinja_environment(self):

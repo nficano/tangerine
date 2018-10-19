@@ -23,7 +23,7 @@ with open('LICENSE') as readme_file:
     license = readme_file.read()
 
 setup(
-    name='gendobot',
+    name='tangerinebot',
     author='Nick Ficano',
     author_email='nficano@gmail.com',
     version='4.1.5',
