@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
     google image me
     ~~~~~~~~~~~~~~~
@@ -28,9 +29,15 @@ CSE_ID = ''
 
 
 def google_image_search(query):
-    resp = requests.get(URL, params={
-        'v': '1.0', 'searchType': 'image', 'q': query.strip(),
-        'cx': CSE_ID, 'key': CSE_KEY})
+    resp = requests.get(
+        URL, params={
+            'v': '1.0',
+            'searchType':
+            'image', 'q': query.strip(),
+            'cx': CSE_ID,
+            'key': CSE_KEY,
+        },
+    )
     if not resp.ok:
         yield
     for i in resp.json().get('items', []):

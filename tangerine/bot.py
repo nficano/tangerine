@@ -20,13 +20,14 @@ from .scheduler import Task
 
 log = logging.getLogger(__name__)
 
-Listener = namedtuple('Listener', (
-    'rule',
-    'view_func',
-    'trigger',
-    'doc',
-    'options'
-    )
+Listener = namedtuple(
+    'Listener', (
+        'rule',
+        'view_func',
+        'trigger',
+        'doc',
+        'options',
+    ),
 )
 
 
@@ -44,7 +45,7 @@ class Tangerine(object):
         self.scheduled_tasks = []
 
         self.client = SlackClient(
-            slack_token or self.settings.tangerine.auth_token
+            slack_token or self.settings.tangerine.auth_token,
         )
         self.sleep = self.settings.tangerine.sleep
 
@@ -141,7 +142,7 @@ class Tangerine(object):
         sendable = {
             'user': user,
             'message': message,
-            'channel': channel
+            'channel': channel,
         }
         if not message:
             return
@@ -156,12 +157,14 @@ class Tangerine(object):
                         time.sleep(.2)
                         self.client.server.send_to_websocket({
                             'type': 'typing',
-                            'channel': channel
+                            'channel': channel,
                         })
                         time.sleep(.5)
                     if '{user.username}' in response:
-                        response = response.replace('{user.username}',
-                                                    self.get_user_name(user))
+                        response = response.replace(
+                            '{user.username}',
+                            self.get_user_name(user),
+                        )
                     self.speak(response, channel)
 
     def add_listener(self, rule, view_func, trigger, docs, **options):
@@ -173,15 +176,17 @@ class Tangerine(object):
         if not six.callable(view_func):
             raise TypeError('view_func should be callable')
         self.listeners.append(
-            Listener(rule, view_func, trigger, docs, options)
+            Listener(rule, view_func, trigger, docs, options),
         )
 
     def add_cron(self, schedule, f, **options):
         self.scheduled_tasks.append(Task(schedule, f, **options))
 
     def speak(self, message, channel, **kwargs):
-        self.client.api_call('chat.postMessage', as_user=True,
-                             channel=channel, text=message, **kwargs)
+        self.client.api_call(
+            'chat.postMessage', as_user=True,
+            channel=channel, text=message, **kwargs,
+        )
 
     def get_user_info(self, user_id):
         return self.client.api_call('users.info', user=user_id)
@@ -200,7 +205,8 @@ class Tangerine(object):
         types = ','.join(['public_channel', 'private_channel'])
 
         response = self.client.api_call(
-            'conversations.list', types=types, limit=1000)
+            'conversations.list', types=types, limit=1000,
+        )
         for c in response['channels']:
             if channel == c['name'].lower():
                 return c['id']
@@ -214,7 +220,8 @@ class Tangerine(object):
         types = ','.join(['public_channel', 'private_channel'])
 
         response = self.client.api_call(
-            'conversations.list', types=types, limit=1000)
+            'conversations.list', types=types, limit=1000,
+        )
         for c in response['channels']:
             if channel_id == c['id']:
                 return c['name']
@@ -230,13 +237,13 @@ class Tangerine(object):
         else:
             return os.path.join(
                 os.getcwd(),
-                self.settings.tangerine.template_folder
+                self.settings.tangerine.template_folder,
             )
 
     def get_jinja_environment(self):
         return self.jinja_environment(
             loader=FileSystemLoader(self.get_template_path()),
-            autoescape=select_autoescape(['txt'])
+            autoescape=select_autoescape(['txt']),
         )
 
     def render_template(self, template_name, **context):

@@ -44,6 +44,7 @@ class UploadCommand(Command):
         os.system('twine upload dist/*')
         sys.exit()
 
+
 setup(
     name='slack-tangerine',
     version='4.1.4',

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
     reddit rando (comment)
     ~~~~~~~~~~~~~~~~~~~~~~
@@ -62,9 +63,11 @@ def get_random_comment_in_subreddit(subreddit):
 
 
 def reddit_request(url):
-    resp = requests.get(url, headers={
-        'User-agent': 'darwin:slackbot:v1.2.3 (by /u/nficano)'
-    })
+    resp = requests.get(
+        url, headers={
+            'User-agent': 'darwin:slackbot:v1.2.3 (by /u/nficano)',
+        },
+    )
     if not resp.ok:
         return False, resp
     return True, resp.json()
