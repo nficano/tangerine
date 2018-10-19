@@ -1,7 +1,6 @@
 <p align="center">
   <img src="https://raw.githubusercontent.com/nficano/tangerine/master/artwork/tangerine@2x.png" alt="Tangerine logo" width="307" height="77">
   <div align="center">
-    <a href="https://travis-ci.org/nficano/tangerine"><img src="https://travis-ci.org/nficano/tangerine.svg?branch=master" /></a>
     <a href="https://pypi.org/project/slack-tangerine/"><img src="https://img.shields.io/pypi/v/slack-tangerine.svg#cachebust" alt="pypi"></a>
     <a href="https://pypi.python.org/pypi/slack-tangerine/"><img src="https://img.shields.io/pypi/pyversions/slack-tangerine.svg" /></a>
   </div>
