@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # flake8: noqa
 __title__ = 'tangerine'
-__version__ = '4.1.5'
+__version__ = '4.1.4'
 __author__ = 'Nick Ficano'
 __license__ = 'MIT License'
 __copyright__ = 'Copyright 2018 Nick Ficano'
