@@ -11,6 +11,9 @@ pyyaml = "*"
 slackclient = "*"
 
 [dev-packages]
+bumpversion = "*"
+twine = "*"
+pre-commit = "*"
 
 [requires]
 python_version = "3.7"
