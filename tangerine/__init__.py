@@ -5,7 +5,7 @@ __title__ = 'tangerine'
 __version__ = '5.0.2'
 __author__ = 'Nick Ficano'
 __license__ = 'MIT License'
-__copyright__ = 'Copyright 2018 Nick Ficano'
+__copyright__ = 'Copyright 2019 Nick Ficano'
 
 from .bot import Tangerine
 
