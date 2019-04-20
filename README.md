@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://assets.nickficano.com/gh-tangerine.svg" alt="Tangerine logo" width="563" height="132">
+  <img src="https://assets.nickficano.com/gh-tangerine-slackbot.svg" alt="Tangerine logo" width="567" height="184">
   <div align="center">
     <a href="https://pypi.org/project/slack-tangerine/"><img src="https://img.shields.io/pypi/v/slack-tangerine.svg#cachebust" alt="pypi"></a>
     <a href="https://pypi.python.org/pypi/slack-tangerine/"><img src="https://img.shields.io/pypi/pyversions/slack-tangerine.svg" /></a>
