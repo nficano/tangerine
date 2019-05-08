@@ -47,7 +47,7 @@ class UploadCommand(Command):
 
 setup(
     name='slack-tangerine',
-    version='5.0.2',
+    version='5.1.0',
     author='Nick Ficano',
     author_email='nficano@gmail.com',
     packages=['tangerine'],
