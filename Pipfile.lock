@@ -111,11 +111,11 @@
         },
         "python-box": {
             "hashes": [
-                "sha256:18374e7eca0e6e14100e252413cf289a3c01257f75700b47763434aad570a6d7",
-                "sha256:f98ef8d8798c66566c2ee6abb5fab0d67adb88e6e2ef51d3b1a253c20c46c8fb"
+                "sha256:4ed4ef5d34de505a65c01e3f1911de8cdb29484fcae0c035141dce535c6c194a",
+                "sha256:f2a531f9f5bbef078c175fad6abb31e9b59d40d121ea79993197e6bb221c6be6"
             ],
             "index": "pypi",
-            "version": "==3.3.0"
+            "version": "==5.3.0"
         },
         "pyyaml": {
             "hashes": [
