@@ -429,10 +429,10 @@
         },
         "docutils": {
             "hashes": [
-                "sha256:0c5b78adfbf7762415433f5515cd5c9e762339e23369dbe8000d84a4bf4ab3af",
-                "sha256:c2de3a60e9e7d07be26b7f2b00ca0309c207e06c100f9cc2a94931fc75a478fc"
+                "sha256:a71042bb7207c03d5647f280427f14bfbd1a65c9eb84f4b341d85fafb6bb4bdf",
+                "sha256:e2ffeea817964356ba4470efba7c2f42b6b0de0b04e66378507e3e2504bbff4c"
             ],
-            "version": "==0.16"
+            "version": "==0.17"
         },
         "filelock": {
             "hashes": [
@@ -501,11 +501,11 @@
         },
         "pre-commit": {
             "hashes": [
-                "sha256:94c82f1bf5899d56edb1d926732f4e75a7df29a0c8c092559c77420c9d62428b",
-                "sha256:de55c5c72ce80d79106e48beb1b54104d16495ce7f95b0c7b13d4784193a00af"
+                "sha256:029d53cb83c241fe7d66eeee1e24db426f42c858f15a38d20bcefd8d8e05c9da",
+                "sha256:46b6ffbab37986c47d0a35e40906ae029376deed89a0eb2e446fb6e67b220427"
             ],
             "index": "pypi",
-            "version": "==2.11.1"
+            "version": "==2.12.0"
         },
         "pycparser": {
             "hashes": [
@@ -615,10 +615,10 @@
         },
         "tqdm": {
             "hashes": [
-                "sha256:9fdf349068d047d4cfbe24862c425883af1db29bcddf4b0eeb2524f6fbdb23c7",
-                "sha256:d666ae29164da3e517fcf125e41d4fe96e5bb375cd87ff9763f6b38b5592fe33"
+                "sha256:daec693491c52e9498632dfbe9ccfc4882a557f5fa08982db1b4d3adbe0887c3",
+                "sha256:ebdebdb95e3477ceea267decfc0784859aa3df3e27e22d23b83e9b272bf157ae"
             ],
-            "version": "==4.59.0"
+            "version": "==4.60.0"
         },
         "twine": {
             "hashes": [
